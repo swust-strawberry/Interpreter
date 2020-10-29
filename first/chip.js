@@ -2,10 +2,10 @@ class Chip{
     Chip(){
         let bus = new Bus();
     }
-    getRamByAddress(address){
+    getRamByAddress(address){   //返回地址中的内容，即数据，数据的类型是nummber数组
 
     }
-    getRegisterByName(name){
+    getRegisterByName(name){   //返回寄存器中的内容，返回的是16位的字符串
 
     }
     getPort(name){
