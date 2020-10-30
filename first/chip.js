@@ -11,7 +11,7 @@ class Chip{
     getPort(name){
 
     }
-    setRam(address,order){
+    setRam(address,data){
 
     }
     setRegister(name,data){
