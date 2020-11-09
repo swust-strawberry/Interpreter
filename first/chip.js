@@ -1,7 +1,4 @@
 class Chip{
-    Chip(){
-        let bus = new Bus();
-    }
     getRamByAddress(address){   //返回地址中的内容，即数据，数据的类型是nummber数组01串
 
     }
@@ -19,24 +16,5 @@ class Chip{
     }
     setPort(name,value){
 
-    }
-    getBus(){
-        return bus;
-    }
-}
-class Bus{
-    Bus(){
-        let  ControlLine = new Array(20);
-        let DataLine = new Array(20);
-        let AddressLine = new Array(20);
-    }
-    getControlLine(){
-        return ControlLine;
-    }
-    getDataLine(){
-        return DataLine;
-    }
-    getAddressLine(){
-        return AddressLine;
     }
 }
