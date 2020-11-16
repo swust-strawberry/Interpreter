@@ -27,20 +27,20 @@ class SysConvert{
 
     static to_hexadecimal(str){
         if(str[str.length-1] === 'H')
-            return str[0]==='-'?this.hexadecimal_hexadecimal(str.slice(1,str.length)):this.hexadecimal_hexadecimal(str);
+            return str[0]==='-'? "-"+this.hexadecimal_hexadecimal(str.slice(1,str.length)):this.hexadecimal_hexadecimal(str);
         else if(str[str.length-1]==='B')
-            return str[0]==='-'?this.binary_hexadecimal(str.slice(1,str.length)):this.binary_hexadecimal(str);
+            return str[0]==='-'? "-"+this.binary_hexadecimal(str.slice(1,str.length)):this.binary_hexadecimal(str);
         else
-            return str[0]==='-'?this.decimal_hexadecimal(str.slice(1,str.length)):this.decimal_hexadecimal(str);
+            return str[0]==='-'? "-"+this.decimal_hexadecimal(str.slice(1,str.length)):this.decimal_hexadecimal(str);
     }
 
     static to_binary(str){
         if(str[str.length-1]==='H')
-            return str[0]==='-'?this.hexadecimal_binary(str.slice(1,str.length)):this.hexadecimal_binary(str);
+            return str[0]==='-'? "-"+this.hexadecimal_binary(str.slice(1,str.length)):this.hexadecimal_binary(str);
         else if(str[str.length-1]==='B')
-            return str[0]==='-'?this.binary_binary(str.slice(1,str.length)):this.binary_binary(str);
+            return str[0]==='-'? "-"+this.binary_binary(str.slice(1,str.length)):this.binary_binary(str);
         else
-            return str[0]==='-'?this.decimal_binary(str.slice(1,str.length)):this.decimal_binary(str);
+            return str[0]==='-'? "-"+this.decimal_binary(str.slice(1,str.length)):this.decimal_binary(str);
     }
 
     static to_decimal(str){

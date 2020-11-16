@@ -11,7 +11,7 @@ class Addressing_mode {
             offset = str.slice(1, str.length - 1);
             seg = 'DS';
         }
-        return SysConvert.to_decimal(chip.getRegisterByName(seg)) + SysConvert.to_decimal(offset);
+        return SysConvert.to_decimal(chip.getRegisterByName(seg))*16 + SysConvert.to_decimal(offset);
     }
 
     //寄存器间接寻址
@@ -25,7 +25,7 @@ class Addressing_mode {
             reg = str.slice(1, str.length - 1);
             seg = this.get_seg(reg);
         }
-        return SysConvert.to_decimal(chip.getRegisterByName(reg)) + SysConvert.to_decimal(chip.getRegisterByName(seg));
+        return SysConvert.to_decimal(chip.getRegisterByName(reg)) + SysConvert.to_decimal(chip.getRegisterByName(seg))*16;
     }
 
     //寄存器相对寻址
@@ -41,7 +41,7 @@ class Addressing_mode {
             rel = str[3] === '+' ? str.slice(4, str.length - 1) : str.slice(3, str.length - 1);
             seg = this.get_seg(reg);
         }
-        return SysConvert.to_decimal(chip.getRegisterByName(seg)) + SysConvert.to_decimal(chip.getRegisterByName(reg)) + SysConvert.to_decimal(rel);
+        return SysConvert.to_decimal(chip.getRegisterByName(seg))*16 + SysConvert.to_decimal(chip.getRegisterByName(reg)) + SysConvert.to_decimal(rel);
     }
 
     //基址变址
@@ -57,7 +57,7 @@ class Addressing_mode {
             reg_index = str.slice(str.length - 3, str.length - 1);
             seg = (reg_base === 'BP' || reg_index === 'BP') ? 'SS' : 'DS';
         }
-        return SysConvert.to_decimal(chip.getRegisterByName(seg)) + SysConvert.to_decimal(chip.getRegisterByName(reg_base)) + SysConvert.to_decimal(chip.getRegisterByName(reg_index));
+        return SysConvert.to_decimal(chip.getRegisterByName(seg))*16 + SysConvert.to_decimal(chip.getRegisterByName(reg_base)) + SysConvert.to_decimal(chip.getRegisterByName(reg_index));
     }
 
     //相对基址变址
@@ -75,7 +75,7 @@ class Addressing_mode {
             rel = str[6] === '+' ? str.slice(7, str.length - 1) : str.slice(6, str.length - 1);
             seg = (reg_base === 'BP' || reg_index === 'BP') ? 'SS' : 'DS';
         }
-        return SysConvert.to_decimal(chip.getRegisterByName(seg)) + SysConvert.to_decimal(chip.getRegisterByName(reg_base)) + SysConvert.to_decimal(chip.getRegisterByName(reg_index)) + SysConvert.to_decimal(rel);
+        return SysConvert.to_decimal(chip.getRegisterByName(seg))*16 + SysConvert.to_decimal(chip.getRegisterByName(reg_base)) + SysConvert.to_decimal(chip.getRegisterByName(reg_index)) + SysConvert.to_decimal(rel);
     }
 
     static to_addressing(str, chip) {
