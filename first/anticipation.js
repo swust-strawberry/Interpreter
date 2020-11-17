@@ -1,13 +1,13 @@
-let ram_num = 131072;
+let ram_num = 256;
 let db_variable = new Map();
 let dw_variable = new Map();
+let label_variable = new Map();
 class Anticipation{
 
     static pseudo_instruction(str,ram){
         str = this.getSegment(str,this.getSegmentName(str,'DS'));
         for(let i=0;i<str.length;i++){
             if(str[i][1]==='DB'){
-
                 db_variable = new Map([[str[i][0],ram_num]]);
                 if(str[i][3].slice(0,3)==='DUP'){
                     if(str[i][3].slice(4,str[i][3].length-1) === '?'){
@@ -65,6 +65,16 @@ class Anticipation{
                         }
                     }
                 }
+            }
+        }
+    }
+
+    static store_instruction(str){
+        str = this.getSegment(str,this.getSegmentName(str,'CS'));
+        for(let i=0;i<str.length;i++){
+            if(str[i][0].charAt(str[i][0].length-1)===':'){
+                let label = str[i][0].replace(":","");
+                label_variable = new Map([label,ram_num]);
             }
         }
     }
