@@ -7,6 +7,7 @@ class Anticipation{
         str = this.getSegment(str,this.getSegmentName(str,'DS'));
         for(let i=0;i<str.length;i++){
             if(str[i][1]==='DB'){
+
                 db_variable = new Map([[str[i][0],ram_num]]);
                 if(str[i][3].slice(0,3)==='DUP'){
                     if(str[i][3].slice(4,str[i][3].length-1) === '?'){
