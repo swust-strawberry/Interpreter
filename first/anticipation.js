@@ -1,12 +1,13 @@
 let ram_num = 131072;
-let variable = new Map();
+let db_variable = new Map();
+let dw_variable = new Map();
 class Anticipation{
 
     static pseudo_instruction(str,ram){
         str = this.getSegment(str,this.getSegmentName(str,'DS'));
         for(let i=0;i<str.length;i++){
             if(str[i][1]==='DB'){
-                variable = new Map([[str[i][0],ram_num]]);
+                db_variable = new Map([[str[i][0],ram_num]]);
                 if(str[i][3].slice(0,3)==='DUP'){
                     if(str[i][3].slice(4,str[i][3].length-1) === '?'){
                         for(let j=0;j<SysConvert.to_decimal(str[i][2]);j++){
@@ -19,29 +20,54 @@ class Anticipation{
                             ram_num++;
                         }
                     }
-
-                }
-                for(let j=2;j<str[i].length;j++){
-                    ram = str[i][j]==='?' ? new Map([[ram_num,null]]):new Map([[ram_num,SysConvert.to_hexadecimal(str[i][j])]]);
-                    ram_num++;
+                }else {
+                    for(let j=2;j<str[i].length;j++){
+                        ram = str[i][j]==='?' ? new Map([[ram_num,null]]):new Map([[ram_num,SysConvert.to_hexadecimal(str[i][j])]]);
+                        ram_num++;
+                    }
                 }
             }
-        }
-    }
-
-    static a(str,ram,start){
-        str = this.getSegment(str,this.getSegmentName(str,'DS'));
-        for(let i=start;i<str.length;i++){
-            let name=str[i][1];
-            for(let j=i+1;j<str.length;j++){
-                if(name === str[j][1]){
-                    if(name === 'DB'){
-
+            else if(str[i][1]==='DW'){
+                dw_variable = new Map([[str[i][0],ram_num]]);
+                if(str[i][3].slice(0,3)==='DUP'){
+                    if(str[i][3].slice(4,str[i][3].length-1) === '?'){
+                        for(let j=0;j<SysConvert.to_decimal(str[i][2]);j++){
+                            ram = new Map([[ram_num,null]]);
+                            ram_num++;
+                            ram = new Map([[ram_num,null]]);
+                            ram_num++;
+                        }
+                    } else {
+                        for(let j=0;j<SysConvert.to_decimal(str[i][2]);j++){
+                            let h = Math.floor(SysConvert.to_decimal(str[i][3].slice(4,str[i][3].length-1))/256);
+                            let l = SysConvert.to_decimal(str[i][3].slice(4,str[i][3].length-1))%256;
+                            ram = new Map([[ram_num,l]]);
+                            ram_num++;
+                            ram = new Map([[ram_num,h]]);
+                            ram_num++;
+                        }
+                    }
+                }else {
+                    for(let j=2;j<str[i].length;j++){
+                        if(str[i][j]==='?'){
+                            ram = new Map([[ram_num,null]]);
+                            ram_num++;
+                            ram = new Map([[ram_num,null]]);
+                            ram_num++;
+                        }else{
+                            let h = Math.floor(SysConvert.to_decimal(str[i][j])/256);
+                            let l = SysConvert.to_decimal(str[i][j])%256;
+                            ram = new Map([[ram_num,l]]);
+                            ram_num++;
+                            ram = new Map([[ram_num,h]]);
+                            ram_num++;
+                        }
                     }
                 }
             }
         }
     }
+
     static getSegment(str,segmentName){     //得到指定段的内容
         str = str.separate_wholeCode(str);
         for(let i=0;i<str.length;i++) {

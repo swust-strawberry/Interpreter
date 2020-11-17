@@ -1,5 +1,23 @@
 class PseudoInstruction{
-    static Db(str){
-        
+    static db(str){
+        db_variable = new Map([[str[i][0],ram_num]]);
+        if(str[i][3].slice(0,3)==='DUP'){
+            if(str[i][3].slice(4,str[i][3].length-1) === '?'){
+                for(let j=0;j<SysConvert.to_decimal(str[i][2]);j++){
+                    ram = new Map([[ram_num,null]]);
+                    ram_num++;
+                }
+            } else {
+                for(let j=0;j<SysConvert.to_decimal(str[i][2]);j++){
+                    ram = new Map([[ram_num,SysConvert.to_decimal(str[i][3].slice(4,str[i][3].length-1))]]);
+                    ram_num++;
+                }
+            }
+        }else {
+            for(let j=2;j<str[i].length;j++){
+                ram = str[i][j]==='?' ? new Map([[ram_num,null]]):new Map([[ram_num,SysConvert.to_hexadecimal(str[i][j])]]);
+                ram_num++;
+            }
+        }
     }
 }
