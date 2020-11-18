@@ -3,8 +3,11 @@ let db_variable = new Map();
 let dw_variable = new Map();
 let label_variable = new Map();
 class Anticipation{
+    static anticipation(str,ram,ram_num,db_variable,dw_variable,label_variable){
 
-    static pseudo_instruction(str,ram){
+    }
+
+    static dataSegment(str,ram){
         str = this.getSegment(str,this.getSegmentName(str,'DS'));
         for(let i=0;i<str.length;i++){
             if(str[i][1]==='DB'){
@@ -69,12 +72,86 @@ class Anticipation{
         }
     }
 
-    static store_instruction(str){
+    static stackSegment(str,ram){
+        str = this.getSegment(str,this.getSegmentName(str,'SS'));
+        for(let i=0;i<str.length;i++){
+            if(str[i][0]==='DB'){
+                db_variable = new Map([['STACK',ram_num]]);
+                if(str[i][2].slice(0,3)==='DUP'){
+                    if(str[i][2].slice(4,str[i][2].length-1) === '?'){
+                        for(let j=0;j<SysConvert.to_decimal(str[i][1]);j++){
+                            ram = new Map([[ram_num,null]]);
+                            ram_num++;
+                        }
+                    } else {
+                        for(let j=0;j<SysConvert.to_decimal(str[i][1]);j++){
+                            ram = new Map([[ram_num,SysConvert.to_decimal(str[i][2].slice(4,str[i][2].length-1))]]);
+                            ram_num++;
+                        }
+                    }
+                }else {
+                    for(let j=1;j<str[i].length;j++){
+                        ram = str[i][j]==='?' ? new Map([[ram_num,null]]):new Map([[ram_num,SysConvert.to_hexadecimal(str[i][j])]]);
+                        ram_num++;
+                    }
+                }
+            }
+            else if(str[i][0]==='DW'){
+                dw_variable = new Map([['STACK',ram_num]]);
+                if(str[i][2].slice(0,3)==='DUP'){
+                    if(str[i][2].slice(4,str[i][2].length-1) === '?'){
+                        for(let j=0;j<SysConvert.to_decimal(str[i][1]);j++){
+                            ram = new Map([[ram_num,null]]);
+                            ram_num++;
+                            ram = new Map([[ram_num,null]]);
+                            ram_num++;
+                        }
+                    } else {
+                        for(let j=0;j<SysConvert.to_decimal(str[i][1]);j++){
+                            let h = Math.floor(SysConvert.to_decimal(str[i][2].slice(4,str[i][2].length-1))/256);
+                            let l = SysConvert.to_decimal(str[i][2].slice(4,str[i][2].length-1))%256;
+                            ram = new Map([[ram_num,l]]);
+                            ram_num++;
+                            ram = new Map([[ram_num,h]]);
+                            ram_num++;
+                        }
+                    }
+                }else {
+                    for(let j=1;j<str[i].length;j++){
+                        if(str[i][j]==='?'){
+                            ram = new Map([[ram_num,null]]);
+                            ram_num++;
+                            ram = new Map([[ram_num,null]]);
+                            ram_num++;
+                        }else{
+                            let h = Math.floor(SysConvert.to_decimal(str[i][j])/256);
+                            let l = SysConvert.to_decimal(str[i][j])%256;
+                            ram = new Map([[ram_num,l]]);
+                            ram_num++;
+                            ram = new Map([[ram_num,h]]);
+                            ram_num++;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    static store_instruction(str,ram){
         str = this.getSegment(str,this.getSegmentName(str,'CS'));
         for(let i=0;i<str.length;i++){
             if(str[i][0].charAt(str[i][0].length-1)===':'){
                 let label = str[i][0].replace(":","");
                 label_variable = new Map([label,ram_num]);
+                str[i] = str[i].slice(1,length);
+            }
+            ram = new Map([[ram_num,str[i]]]);
+            if(str[i].length===1){
+                ram_num++;
+            }else if(str[i].length ===2){
+                ram_num+=2;
+            }else {
+                ram_num+=3;
             }
         }
     }
