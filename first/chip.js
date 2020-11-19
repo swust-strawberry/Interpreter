@@ -1,4 +1,5 @@
 class Chip{
+    ram = new Ram();
     register = new Map([['AH',Array(8)]
         ,['AL',Array(8)]
         ,['BH',Array(8)]
