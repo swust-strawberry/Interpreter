@@ -1,160 +1,176 @@
-let ram_num = 256;
-let db_variable = new Map();
-let dw_variable = new Map();
-let label_variable = new Map();
 class Anticipation{
-    static anticipation(str,ram,ram_num,db_variable,dw_variable,label_variable){
 
+    /*
+    整个预处理，存指令，存数据
+     */
+    static anticipation(str,ram){
+        ram = this.store_instruction(str,ram);
+        ram = this.dataSegment(str,ram);
+        ram = this.stackSegment(str,ram);
+        return ram;
     }
 
+    /*
+    数据段定义的处理
+     */
     static dataSegment(str,ram){
         str = this.getSegment(str,this.getSegmentName(str,'DS'));
         for(let i=0;i<str.length;i++){
             if(str[i][1]==='DB'){
-                db_variable = new Map([[str[i][0],ram_num]]);
+                ram.db_variable = new Map([[str[i][0],ram.ram_num]]);
                 if(str[i][3].slice(0,3)==='DUP'){
                     if(str[i][3].slice(4,str[i][3].length-1) === '?'){
                         for(let j=0;j<SysConvert.to_decimal(str[i][2]);j++){
-                            ram = new Map([[ram_num,null]]);
-                            ram_num++;
+                            ram.ramList = new Map([[ram.ram_num,null]]);
+                            ram.ram_num++;
                         }
                     } else {
                         for(let j=0;j<SysConvert.to_decimal(str[i][2]);j++){
-                            ram = new Map([[ram_num,SysConvert.to_decimal(str[i][3].slice(4,str[i][3].length-1))]]);
-                            ram_num++;
+                            ram.ramList = new Map([[ram.ram_num,SysConvert.to_decimal(str[i][3].slice(4,str[i][3].length-1))]]);
+                            ram.ram_num++;
                         }
                     }
                 }else {
                     for(let j=2;j<str[i].length;j++){
-                        ram = str[i][j]==='?' ? new Map([[ram_num,null]]):new Map([[ram_num,SysConvert.to_hexadecimal(str[i][j])]]);
-                        ram_num++;
+                        ram.ramList = str[i][j]==='?' ? new Map([[ram.ram_num,null]]):new Map([[ram_num,SysConvert.to_hexadecimal(str[i][j])]]);
+                        ram.ram_num++;
                     }
                 }
             }
             else if(str[i][1]==='DW'){
-                dw_variable = new Map([[str[i][0],ram_num]]);
+                ram.dw_variable = new Map([[str[i][0],ram.ram_num]]);
                 if(str[i][3].slice(0,3)==='DUP'){
                     if(str[i][3].slice(4,str[i][3].length-1) === '?'){
                         for(let j=0;j<SysConvert.to_decimal(str[i][2]);j++){
-                            ram = new Map([[ram_num,null]]);
-                            ram_num++;
-                            ram = new Map([[ram_num,null]]);
-                            ram_num++;
+                            ram.ramList = new Map([[ram.ram_num,null]]);
+                            ram.ram_num++;
+                            ram.ramList = new Map([[ram.ram_num,null]]);
+                            ram.ram_num++;
                         }
                     } else {
                         for(let j=0;j<SysConvert.to_decimal(str[i][2]);j++){
                             let h = Math.floor(SysConvert.to_decimal(str[i][3].slice(4,str[i][3].length-1))/256);
                             let l = SysConvert.to_decimal(str[i][3].slice(4,str[i][3].length-1))%256;
-                            ram = new Map([[ram_num,l]]);
-                            ram_num++;
-                            ram = new Map([[ram_num,h]]);
-                            ram_num++;
+                            ram.ramList = new Map([[ram.ram_num,l]]);
+                            ram.ram_num++;
+                            ram.ramList = new Map([[ram.ram_num,h]]);
+                            ram.ram_num++;
                         }
                     }
                 }else {
                     for(let j=2;j<str[i].length;j++){
                         if(str[i][j]==='?'){
-                            ram = new Map([[ram_num,null]]);
-                            ram_num++;
-                            ram = new Map([[ram_num,null]]);
-                            ram_num++;
+                            ram.ramList = new Map([[ram.ram_num,null]]);
+                            ram.ram_num++;
+                            ram.ramList = new Map([[ram.ram_num,null]]);
+                            ram.ram_num++;
                         }else{
                             let h = Math.floor(SysConvert.to_decimal(str[i][j])/256);
                             let l = SysConvert.to_decimal(str[i][j])%256;
-                            ram = new Map([[ram_num,l]]);
-                            ram_num++;
-                            ram = new Map([[ram_num,h]]);
-                            ram_num++;
+                            ram.ramList = new Map([[ram.ram_num,l]]);
+                            ram.ram_num++;
+                            ram.ramList = new Map([[ram.ram_num,h]]);
+                            ram.ram_num++;
                         }
                     }
                 }
             }
         }
+        return ram;
     }
 
+    /*
+    堆栈段定义的处理
+     */
     static stackSegment(str,ram){
         str = this.getSegment(str,this.getSegmentName(str,'SS'));
         for(let i=0;i<str.length;i++){
             if(str[i][0]==='DB'){
-                db_variable = new Map([['STACK',ram_num]]);
+                ram.db_variable = new Map([['STACK',ram.ram_num]]);
                 if(str[i][2].slice(0,3)==='DUP'){
                     if(str[i][2].slice(4,str[i][2].length-1) === '?'){
                         for(let j=0;j<SysConvert.to_decimal(str[i][1]);j++){
-                            ram = new Map([[ram_num,null]]);
-                            ram_num++;
+                            ram.ramList = new Map([[ram.ram_num,null]]);
+                            ram.ram_num++;
                         }
                     } else {
                         for(let j=0;j<SysConvert.to_decimal(str[i][1]);j++){
-                            ram = new Map([[ram_num,SysConvert.to_decimal(str[i][2].slice(4,str[i][2].length-1))]]);
-                            ram_num++;
+                            ram.ramList = new Map([[ram.ram_num,SysConvert.to_decimal(str[i][2].slice(4,str[i][2].length-1))]]);
+                            ram.ram_num++;
                         }
                     }
                 }else {
                     for(let j=1;j<str[i].length;j++){
-                        ram = str[i][j]==='?' ? new Map([[ram_num,null]]):new Map([[ram_num,SysConvert.to_hexadecimal(str[i][j])]]);
-                        ram_num++;
+                        ram.ramList = str[i][j]==='?' ? new Map([[ram.ram_num,null]]):new Map([[ram.ram_num,SysConvert.to_hexadecimal(str[i][j])]]);
+                        ram.ram_num++;
                     }
                 }
             }
             else if(str[i][0]==='DW'){
-                dw_variable = new Map([['STACK',ram_num]]);
+                ram.dw_variable = new Map([['STACK',ram.ram_num]]);
                 if(str[i][2].slice(0,3)==='DUP'){
                     if(str[i][2].slice(4,str[i][2].length-1) === '?'){
                         for(let j=0;j<SysConvert.to_decimal(str[i][1]);j++){
-                            ram = new Map([[ram_num,null]]);
-                            ram_num++;
-                            ram = new Map([[ram_num,null]]);
-                            ram_num++;
+                            ram.ramList = new Map([[ram.ram_num,null]]);
+                            ram.ram_num++;
+                            ram.ramList = new Map([[ram.ram_num,null]]);
+                            ram.ram_num++;
                         }
                     } else {
                         for(let j=0;j<SysConvert.to_decimal(str[i][1]);j++){
                             let h = Math.floor(SysConvert.to_decimal(str[i][2].slice(4,str[i][2].length-1))/256);
                             let l = SysConvert.to_decimal(str[i][2].slice(4,str[i][2].length-1))%256;
-                            ram = new Map([[ram_num,l]]);
-                            ram_num++;
-                            ram = new Map([[ram_num,h]]);
-                            ram_num++;
+                            ram.ramList = new Map([[ram.ram_num,l]]);
+                            ram.ram_num++;
+                            ram.ramList = new Map([[ram.ram_num,h]]);
+                            ram.ram_num++;
                         }
                     }
                 }else {
                     for(let j=1;j<str[i].length;j++){
                         if(str[i][j]==='?'){
-                            ram = new Map([[ram_num,null]]);
-                            ram_num++;
-                            ram = new Map([[ram_num,null]]);
-                            ram_num++;
+                            ram.ramList = new Map([[ram.ram_num,null]]);
+                            ram.ram_num++;
+                            ram.ramList = new Map([[ram.ram_num,null]]);
+                            ram.ram_num++;
                         }else{
                             let h = Math.floor(SysConvert.to_decimal(str[i][j])/256);
                             let l = SysConvert.to_decimal(str[i][j])%256;
-                            ram = new Map([[ram_num,l]]);
-                            ram_num++;
-                            ram = new Map([[ram_num,h]]);
-                            ram_num++;
+                            ram.ramList = new Map([[ram.ram_num,l]]);
+                            ram.ram_num++;
+                            ram.ramList = new Map([[ram.ram_num,h]]);
+                            ram.ram_num++;
                         }
                     }
                 }
             }
         }
+        return ram;
     }
 
+    /*
+    代码段的处理，存指令
+     */
     static store_instruction(str,ram){
         str = this.getSegment(str,this.getSegmentName(str,'CS'));
         for(let i=0;i<str.length;i++){
             if(str[i][0].charAt(str[i][0].length-1)===':'){
                 let label = str[i][0].replace(":","");
-                label_variable = new Map([label,ram_num]);
+                ram.label_variable = new Map([label,ram.ram_num]);
                 str[i] = str[i].slice(1,length);
             }
-            ram = new Map([[ram_num,str[i]]]);
+            ram = new Map([[ram.ram_num,str[i]]]);
             if(str[i].length===1){
-                ram_num++;
+                ram.ram_num++;
             }else if(str[i].length ===2){
-                ram_num+=2;
+                ram.ram_num+=2;
             }else {
-                ram_num+=3;
+                ram.ram_num+=3;
             }
         }
+        return ram;
     }
+
 
     static getSegment(str,segmentName){     //得到指定段的内容
         str = str.separate_wholeCode(str);
