@@ -4,6 +4,7 @@ class Ram{
     dw_variable = new Map();
     label_variable = new Map();
     ramList = new Map();
+    chip = new Chip();
     getRamByAddress(address){   //返回地址中的内容，即数据，数据的类型是numbers数组01串
         return this.ramList.get(address);
     }
