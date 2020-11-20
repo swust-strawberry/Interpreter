@@ -1,8 +1,8 @@
-class stc
+class Stc
 {
-    static STC(order, chip) {
-        let temp = chip.getRegisterByName("F");
+    static stc(order, ram) {
+        let temp = ram.chip.getRegisterByName("F");
         temp[0] = "1";
-        chip.setRegister("F", temp);
+        ram.chip.setRegister("F", temp);
     }
 }

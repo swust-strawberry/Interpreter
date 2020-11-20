@@ -1,9 +1,9 @@
-class std
+class Std
 {
-    static STD(order,chip)
+    static std(order,ram)
     {
-        let temp=chip.getRegisterByName("F");
+        let temp = ram.chip.getRegisterByName("F");
         temp[10] = "1";
-        chip.setRegister("F",temp);
+        ram.chip.setRegister("F",temp);
     }
 }

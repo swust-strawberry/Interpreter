@@ -1,9 +1,9 @@
-class cld
+class Cld
 {
-    static CLD(order,chip)
+    static cld(order,ram)
     {
-        let temp=chip.getRegisterByName("F");
+        let temp=ram.chip.getRegisterByName("F");
         temp[10] = "0";
-        chip.setRegister("F",temp);
+        ram.chip.setRegister("F",temp);
     }
 }

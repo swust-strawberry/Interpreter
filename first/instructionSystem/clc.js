@@ -1,7 +1,7 @@
-class clc {
-    static CLC(order, chip) {
-        let temp = chip.getRegisterByName("F");
+class Clc {
+    static clc(order, ram) {
+        let temp = ram.chip.getRegisterByName("F");
         temp[0] = "0";
-        chip.setRegister("F", temp);
+        ram.chip.setRegister("F", temp);
     }
 }

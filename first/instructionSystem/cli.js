@@ -1,10 +1,10 @@
-class cli
+class Cli
 {
-    static CLI(order,chip)
+    static cli(order,ram)
     {
-        let temp = chip.getRegisterByName("F");
+        let temp = ram.chip.getRegisterByName("F");
         temp[9] = "0";
-        chip.setRegister("F",temp);
+        ram.chip.setRegister("F",temp);
     }
 }
 

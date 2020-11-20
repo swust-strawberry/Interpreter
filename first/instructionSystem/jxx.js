@@ -1,205 +1,206 @@
-class jxx
+class Jxx
 {
-    static JAE(order,chip)
+    static jae(order,ram)
     {
-        let currentIP = SysConvert.to_decimal(chip.getRegisterByName ("IP")+'B');//获得当前IP的值
-        if(chip.getRegisterByName("F")[0] === "0")
+        let currentIP = SysConvert.to_decimal(ram.chip.getRegisterByName ("IP")+'B');//获得当前IP的值
+        if(ram.chip.getRegisterByName("F")[0] === "0")
         {
             // var k=order.data2.indexOf("[")//k确定是否带】
             //if(k==-1)
-            chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
+            ram.chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
         }
     }
-    static JNB(order,chip)
+    static jnb(order,ram)
     {
-        let currentIP = SysConvert.to_decimal(chip.getRegisterByName ("IP")+'B');//获得当前IP的值
-        if(chip.getRegisterByName("F")[0] === "0")
-            chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
+        let currentIP = SysConvert.to_decimal(ram.chip.getRegisterByName ("IP")+'B');//获得当前IP的值
+        if(ram.chip.getRegisterByName("F")[0] === "0")
+            ram.chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
     }
 
-    static JB(order,chip)
+    static jb(order,ram)
     {
-        let currentIP = SysConvert.to_decimal(chip.getRegisterByName ("IP")+'B');
-        if(chip.getRegisterByName("F")[0] === "1")
-            chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
+        let currentIP = SysConvert.to_decimal(ram.chip.getRegisterByName ("IP")+'B');
+        if(ram.chip.getRegisterByName("F")[0] === "1")
+            ram.chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
     }
-    static JNAE(order,chip)
+    static jnAe(order,ram)
     {
-        let currentIP = SysConvert.to_decimal(chip.getRegisterByName ("IP")+'B');
-        if(chip.getRegisterByName("F")[0] === "1")
-            chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
-    }
-
-    static JC(order,chip)
-    {
-        let currentIP = SysConvert.to_decimal(chip.getRegisterByName ("IP")+'B');
-        if(chip.getRegisterByName("F")[0] === "1")
-            chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
+        let currentIP = SysConvert.to_decimal(ram.chip.getRegisterByName ("IP")+'B');
+        if(ram.chip.getRegisterByName("F")[0] === "1")
+            ram.chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
     }
 
-    static JNC(order,chip)
+    static jc(order,ram)
     {
-        let currentIP = SysConvert.to_decimal(chip.getRegisterByName ("IP")+'B');
-        if(chip.getRegisterByName("F")[0] === "1")
-            chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
-    }
-    static JZ(order,chip)
-    {
-        let currentIP = SysConvert.to_decimal(chip.getRegisterByName ("IP")+'B');
-        if(chip.getRegisterByName("F")[6] === "1")
-            chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
-    }
-    static JE(order,chip)
-    {
-        let currentIP = SysConvert.to_decimal(chip.getRegisterByName ("IP")+'B');
-        if(chip.getRegisterByName("F")[6] === "1")
-            chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
-    }
-    static JNZ(order,chip)
-    {
-        let currentIP = SysConvert.to_decimal(chip.getRegisterByName ("IP")+'B');
-        if(chip.getRegisterByName("F")[6] === "0")
-            chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
-    }
-    static JNE(order,chip)
-    {
-        let currentIP = SysConvert.to_decimal(chip.getRegisterByName ("IP")+'B');
-        if(chip.getRegisterByName("F")[6] === "0")
-            chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
+        let currentIP = SysConvert.to_decimal(ram.chip.getRegisterByName ("IP")+'B');
+        if(ram.chip.getRegisterByName("F")[0] === "1")
+            ram.chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
     }
 
-    static JNO(order,chip)
+    static jnc(order,ram)
     {
-        let currentIP = SysConvert.to_decimal(chip.getRegisterByName ("IP")+'B');
-        if(chip.getRegisterByName("F")[11] === "0")
-            chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
+        let currentIP = SysConvert.to_decimal(ram.chip.getRegisterByName ("IP")+'B');
+        if(ram.chip.getRegisterByName("F")[0] === "1")
+            ram.chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
+    }
+    static jz(order,ram)
+    {
+
+        let currentIP = SysConvert.to_decimal(ram.chip.getRegisterByName ("IP")+'B');
+        if(ram.chip.getRegisterByName("F")[6] === "1")
+            ram.chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
+    }
+    static je(order,ram)
+    {
+        let currentIP = SysConvert.to_decimal(ram.chip.getRegisterByName ("IP")+'B');
+        if(ram.chip.getRegisterByName("F")[6] === "1")
+            ram.chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
+    }
+    static jnz(order,ram)
+    {
+        let currentIP = SysConvert.to_decimal(ram.chip.getRegisterByName ("IP")+'B');
+        if(ram.chip.getRegisterByName("F")[6] === "0")
+            ram.chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
+    }
+    static jne(order,ram)
+    {
+        let currentIP = SysConvert.to_decimal(ram.chip.getRegisterByName ("IP")+'B');
+        if(ram.chip.getRegisterByName("F")[6] === "0")
+            ram.chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
     }
 
-    static JO(order,chip)
+    static jno(order,ram)
     {
-        let currentIP = SysConvert.to_decimal(chip.getRegisterByName ("IP")+'B');
-        if(chip.getRegisterByName("F")[11] === "1")
-            chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
+        let currentIP = SysConvert.to_decimal(ram.chip.getRegisterByName ("IP")+'B');
+        if(ram.chip.getRegisterByName("F")[11] === "0")
+            ram.chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
     }
 
-    static JNP(order,chip)
+    static jo(order,ram)
     {
-        let currentIP = SysConvert.to_decimal(chip.getRegisterByName ("IP")+'B');
-        if(chip.getRegisterByName("F")[2] === "0")
-            chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
+        let currentIP = SysConvert.to_decimal(ram.chip.getRegisterByName ("IP")+'B');
+        if(ram.chip.getRegisterByName("F")[11] === "1")
+            ram.chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
     }
 
-    static JPO(order,chip)
+    static jnp(order,ram)
     {
-        let currentIP = SysConvert.to_decimal(chip.getRegisterByName ("IP")+'B');
-        if(chip.getRegisterByName("F")[2] === "0")
-            chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
+        let currentIP = SysConvert.to_decimal(ram.chip.getRegisterByName ("IP")+'B');
+        if(ram.chip.getRegisterByName("F")[2] === "0")
+            ram.chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
     }
 
-    static JP(order,chip)
+    static jpo(order,ram)
     {
-        let currentIP = SysConvert.to_decimal(chip.getRegisterByName ("IP")+'B');
-        if(chip.getRegisterByName("F")[2] === "1")
-            chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
-    }
-    static JPE(order,chip)
-    {
-        let currentIP = SysConvert.to_decimal(chip.getRegisterByName ("IP")+'B');
-        if(chip.getRegisterByName("F")[2] === "1")
-            chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
+        let currentIP = SysConvert.to_decimal(ram.chip.getRegisterByName ("IP")+'B');
+        if(ram.chip.getRegisterByName("F")[2] === "0")
+            ram.chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
     }
 
-    static JNS(order,chip)
+    static jp(order,ram)
     {
-        let currentIP = SysConvert.to_decimal(chip.getRegisterByName ("IP")+'B');
-        if(chip.getRegisterByName("F")[7] === "0")
-            chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
+        let currentIP = SysConvert.to_decimal(ram.chip.getRegisterByName ("IP")+'B');
+        if(ram.chip.getRegisterByName("F")[2] === "1")
+            ram.chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
+    }
+    static jpe(order,ram)
+    {
+        let currentIP = SysConvert.to_decimal(ram.chip.getRegisterByName ("IP")+'B');
+        if(ram.chip.getRegisterByName("F")[2] === "1")
+            ram.chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
     }
 
-    static JS(order,chip)
+    static jns(order,ram)
     {
-        let currentIP = SysConvert.to_decimal(chip.getRegisterByName ("IP")+'B');
-        if(chip.getRegisterByName("F")[7] === "1")
-            chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
+        let currentIP = SysConvert.to_decimal(ram.chip.getRegisterByName ("IP")+'B');
+        if(ram.chip.getRegisterByName("F")[7] === "0")
+            ram.chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
     }
 
-    static JA(order,chip)
+    static js(order,ram)
     {
-        let currentIP = SysConvert.to_decimal(chip.getRegisterByName ("IP")+'B');
-        if((SysConvert.to_decimal(chip.getRegisterByName("F")[0]) || SysConvert.to_decimal(chip.getRegisterByName("F")[6])) === 0)
-            chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
-    }
-    static JNBE(order,chip)
-    {
-        let currentIP = SysConvert.to_decimal(chip.get_Register_By_Name ("IP")+'B');
-        if((SysConvert.to_decimal(chip.getRegisterByName("F")[0]) || SysConvert.to_decimal(chip.getRegisterByName("F")[6])) === 0)
-            chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
+        let currentIP = SysConvert.to_decimal(ram.chip.getRegisterByName ("IP")+'B');
+        if(ram.chip.getRegisterByName("F")[7] === "1")
+            ram.chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
     }
 
-    static JBE(order,chip)
+    static ja(order,ram)
     {
-        let currentIP = SysConvert.to_decimal(chip.get_Register_By_Name ("IP")+'B');
-        if((SysConvert.to_decimal(chip.get_Register_By_Name("F")[0]) || SysConvert.to_decimal(chip.getRegisterByName("F")[6])) === 1)
-            chip.set_Register("IP",SysConvert.to_binary(currentIP + order.data));
+        let currentIP = SysConvert.to_decimal(ram.chip.getRegisterByName ("IP")+'B');
+        if((SysConvert.to_decimal(ram.chip.getRegisterByName("F")[0]) || SysConvert.to_decimal(ram.chip.getRegisterByName("F")[6])) === 0)
+            ram.chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
     }
-    static JNA(order,chip)
+    static jnBe(order,ram)
     {
-        let currentIP = SysConvert.to_decimal(chip.get_Register_By_Name ("IP")+'B');
-        if((SysConvert.to_decimal(chip.getRegisterByName("F")[0]) || SysConvert.to_decimal(chip.getRegisterByName("F")[6])) === 1)
-            chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
+        let currentIP = SysConvert.to_decimal(ram.chip.getRegisterByName ("IP")+'B');
+        if((SysConvert.to_decimal(ram.chip.getRegisterByName("F")[0]) || SysConvert.to_decimal(ram.chip.getRegisterByName("F")[6])) === 0)
+            ram.chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
     }
-    static JGE(order,chip)
+
+    static jbe(order,ram)
     {
-        let currentIP = SysConvert.to_decimal(chip.getRegisterByName ("IP")+'B');
-        if((SysConvert.to_decimal(chip.getRegisterByName("F")[7]) ^ SysConvert.to_decimal(chip.getRegisterByName("F")[11])) === 0)
-            chip.set_Register("IP",SysConvert.to_binary(currentIP + order.data));
+        let currentIP = SysConvert.to_decimal(ram.chip.getRegisterByName ("IP")+'B');
+        if((SysConvert.to_decimal(ram.chip.getRegisterByName("F")[0]) || SysConvert.to_decimal(ram.chip.getRegisterByName("F")[6])) === 1)
+            ram.chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
     }
-    static JNL(order,chip)
+    static jna(order,ram)
     {
-        let currentIP = SysConvert.to_decimal(chip.getRegisterByName ("IP")+'B');
-        if((SysConvert.to_decimal(chip.getRegisterByName("F")[7]) ^ SysConvert.to_decimal(chip.getRegisterByName("F")[11])) === 0)
-            chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
+        let currentIP = SysConvert.to_decimal(ram.chip.getRegisterByName ("IP")+'B');
+        if((SysConvert.to_decimal(ram.chip.getRegisterByName("F")[0]) || SysConvert.to_decimal(ram.chip.getRegisterByName("F")[6])) === 1)
+            ram.chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
     }
-    static JL(order,chip)
+    static jge(order,ram)
     {
-        let currentIP = SysConvert.to_decimal(chip.getRegisterByName ("IP")+'B');
-        if((SysConvert.to_decimal(chip.getRegisterByName("F")[7]) ^ SysConvert.to_decimal(chip.getRegisterByName("F")[11])) === 1)
-            chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
+        let currentIP = SysConvert.to_decimal(ram.chip.getRegisterByName ("IP")+'B');
+        if((SysConvert.to_decimal(ram.chip.getRegisterByName("F")[7]) ^ SysConvert.to_decimal(ram.chip.getRegisterByName("F")[11])) === 0)
+            ram.chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
     }
-    static JNGE(order,chip)
+    static jnl(order,ram)
     {
-        let currentIP = SysConvert.to_decimal(chip.getRegisterByName ("IP")+'B');
-        if((SysConvert.to_decimal(chip.getRegisterByName("F")[7]) ^ SysConvert.to_decimal(chip.getRegisterByName("F")[11])) === 1)
-            chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
+        let currentIP = SysConvert.to_decimal(ram.chip.getRegisterByName ("IP")+'B');
+        if((SysConvert.to_decimal(ram.chip.getRegisterByName("F")[7]) ^ SysConvert.to_decimal(ram.chip.getRegisterByName("F")[11])) === 0)
+            ram.chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
     }
-    static JG(order,chip)
+    static jl(order,ram)
     {
-        let currentIP = SysConvert.to_decimal(chip.getRegisterByName ("IP")+'B');
-        if(((SysConvert.to_decimal(chip.getRegisterByName("F")[7]) ^ SysConvert.to_decimal(chip.getRegisterByName("F")[11])) || SysConvert.to_decimal(chip.getRegisterByName("F")[6]))=== 0)
-            chip.set_Register("IP",SysConvert.to_binary(currentIP + order.data));
+        let currentIP = SysConvert.to_decimal(ram.chip.getRegisterByName ("IP")+'B');
+        if((SysConvert.to_decimal(ram.chip.getRegisterByName("F")[7]) ^ SysConvert.to_decimal(ram.chip.getRegisterByName("F")[11])) === 1)
+            ram.chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
     }
-    static JNLE(order,chip)
+    static jnGe(order,ram)
     {
-        let currentIP = SysConvert.to_decimal(chip.getRegisterByName ("IP")+'B');
-        if(((SysConvert.to_decimal(chip.getRegisterByName("F")[7]) ^ SysConvert.to_decimal(chip.getRegisterByName("F")[11])) || SysConvert.to_decimal(chip.getRegisterByName("F")[6]))=== 0)
-            chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
+        let currentIP = SysConvert.to_decimal(ram.chip.getRegisterByName ("IP")+'B');
+        if((SysConvert.to_decimal(ram.chip.getRegisterByName("F")[7]) ^ SysConvert.to_decimal(ram.chip.getRegisterByName("F")[11])) === 1)
+            ram.chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
     }
-    static JLE(order,chip)
+    static jg(order,ram)
     {
-        let currentIP = SysConvert.to_decimal(chip.get_Register_By_Name ("IP")+'B');
-        if(((SysConvert.to_decimal(chip.getRegisterByName("F")[7]) ^ SysConvert.to_decimal(chip.getRegisterByName("F")[11])) || SysConvert.to_decimal(chip.getRegisterByName("F")[6]))=== 1)
-            chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
+        let currentIP = SysConvert.to_decimal(ram.chip.getRegisterByName ("IP")+'B');
+        if(((SysConvert.to_decimal(ram.chip.getRegisterByName("F")[7]) ^ SysConvert.to_decimal(ram.chip.getRegisterByName("F")[11])) || SysConvert.to_decimal(ram.chip.getRegisterByName("F")[6]))=== 0)
+            ram.chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
     }
-    static JNG(order,chip)
+    static jnLe(order,ram)
     {
-        let currentIP = SysConvert.to_decimal(chip.getRegisterByName ("IP")+'B');
-        if(((SysConvert.to_decimal(chip.getRegisterByName("F")[7]) ^ SysConvert.to_decimal(chip.getRegisterByName("F")[11])) || SysConvert.to_decimal(chip.getRegisterByName("F")[6]))=== 1)
-            chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
+        let currentIP = SysConvert.to_decimal(ram.chip.getRegisterByName ("IP")+'B');
+        if(((SysConvert.to_decimal(ram.chip.getRegisterByName("F")[7]) ^ SysConvert.to_decimal(ram.chip.getRegisterByName("F")[11])) || SysConvert.to_decimal(chip.getRegisterByName("F")[6]))=== 0)
+            ram.chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
     }
-    static JCXZ(order,chip)
+    static jle(order,ram)
     {
-        let currentIP = SysConvert.to_decimal(chip.getRegisterByName ("IP")+'B');
-        if(chip.getRegisterByName("CX") === "0")
-            chip.set_Register("IP",SysConvert.to_binary(currentIP + order.data));
+        let currentIP = SysConvert.to_decimal(ram.chip.getRegisterByName ("IP")+'B');
+        if(((SysConvert.to_decimal(ram.chip.getRegisterByName("F")[7]) ^ SysConvert.to_decimal(ram.chip.getRegisterByName("F")[11])) || SysConvert.to_decimal(ram.chip.getRegisterByName("F")[6]))=== 1)
+            ram.chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
+    }
+    static jng(order,ram)
+    {
+        let currentIP = SysConvert.to_decimal(ram.chip.getRegisterByName ("IP")+'B');
+        if(((SysConvert.to_decimal(ram.chip.getRegisterByName("F")[7]) ^ SysConvert.to_decimal(ram.chip.getRegisterByName("F")[11])) || SysConvert.to_decimal(ram.chip.getRegisterByName("F")[6]))=== 1)
+            ram.chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
+    }
+    static jcXz(order,ram)
+    {
+        let currentIP = SysConvert.to_decimal(ram.chip.getRegisterByName ("IP")+'B');
+        if(ram.chip.getRegisterByName("CX") === "0")
+            ram.chip.setRegister("IP",SysConvert.to_binary(currentIP + order.data));
     }
 }
