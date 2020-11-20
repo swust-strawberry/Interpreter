@@ -171,7 +171,9 @@ class Anticipation{
         return ram;
     }
 
+    static subroutine(str){
 
+    }
     static getSegment(str,segmentName){     //得到指定段的内容
         str = str.separate_wholeCode(str);
         for(let i=0;i<str.length;i++) {
