@@ -247,4 +247,4 @@ class Anticipation{
     }
 }
 
-let a= ["     ORG 3000H; 123   ","   MAIN   :   MOV   A   ,01H,   #01H  ;1234  ",   " MOV A  ,#01H  ;  123  ","  CLR C; 位修改  ","   END  ; 12345  "];
+

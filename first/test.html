@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>test</title>
+</head>
+<body>
+<script type="text/javascript" src="ram.js"></script>
+<script type="text/javascript" src="chip.js"></script>
+<script type="text/javascript" src="sysConvert.js" ></script>
+<script type="text/javascript" src="anticipation.js"></script>
+<script type="text/javascript" src="ram.js"></script>
+<script type="text/javascript" src="ram.js">
+    let ram = new Ram();
+    let str = ["DATA  SEGMENT","STR1  DB  12","DATA  ENDS","  SEGMENT","STR1  DB  12","DATA  ENDS","CODE  SEGMENT","ASSUME    CS:CODE,DS:DATA,ES:DATA","CODE  ENDS","   MAIN   :   MOV   A   ,01H;1234  ",   " MOV A  ,#01H  ;  123  ","  CLR C; 位修改  ","   END  ; 12345  "];
+    ram = Anticipation.anticipation(str,ram);
+    console.log(ram.ram_num);
+</script>
+</body>
+</html>
