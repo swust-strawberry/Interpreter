@@ -1,10 +1,13 @@
 class Ram{
-    ram_num = 256;
-    db_variable = new Map();
-    dw_variable = new Map();
-    label_variable = new Map();
-    ramList = new Map();
-    chip = new Chip();
+    constructor() {
+        this.ram_num = 256;
+        this.db_variable = new Map();
+        this.dw_variable = new Map();
+        this.label_variable = new Map();
+        this.ramList = new Map();
+        this.chip = new Chip();
+    }
+
     getRamByAddress(address){   //返回地址中的内容，即数据，数据的类型是numbers数组01串
         return this.ramList.get(address);
     }
