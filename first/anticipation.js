@@ -189,7 +189,7 @@ class Anticipation{
     }
 
     static getSegmentName(str,regName){    //得到指定段对应的段名
-        str = str.separate_wholeCode(str);
+        str = this.separate_wholeCode(str);
         for(let i=0;i<str.length;i++){
             if(str[i][0] === "ASSUME"){
                 if(str[i][1].slice(0,2)===regName)
