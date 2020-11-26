@@ -210,7 +210,7 @@ class Anticipation{
                 str = this.insertStr(str,i+1,' ');
             }
         }
-        str = str.replace(","," ");
+        str = str.replace(/,/g," ");
         str = str.split(" ");
         let len=0;
         let endStr = [];
