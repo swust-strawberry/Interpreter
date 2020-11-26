@@ -213,7 +213,7 @@ class Anticipation{
         str = str.replace(","," ");
         str = str.split(" ");
         let len=0;
-        let endStr = Array();
+        let endStr = [];
         for(let i=0;i<str.length;i++) {
             if (str[i] !== "") {
                 endStr[len] = str[i];
@@ -224,7 +224,7 @@ class Anticipation{
     }
 
     static separate_wholeCode(str){      //整行代码的单词分割
-        let endStr = Array(),len=0;
+        let endStr = [],len=0;
         for(let i=0;i<str.length;i++){
             if(this.separate_singleCode(str[i]).length === 0) continue;
             endStr[len]=this.separate_singleCode(str[i]);
