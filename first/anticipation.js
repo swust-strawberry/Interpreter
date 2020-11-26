@@ -175,7 +175,7 @@ class Anticipation{
 
     }
     static getSegment(str,segmentName){     //得到指定段的内容
-        str = str.separate_wholeCode(str);
+        str = this.separate_wholeCode(str);
         for(let i=0;i<str.length;i++) {
             if(str[i][0] === segmentName && str[i][1] === "SEGMENT"){
                 for(let j=i+1;j<str.length;j++){
