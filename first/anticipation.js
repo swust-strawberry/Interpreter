@@ -18,19 +18,22 @@ class Anticipation{
         for(let i=0;i<str.length;i++){
             if(str[i][1]==='DB'){
                 ram.db_variable.set(str[i][0],ram.ram_num);
-                if(str[i][3].slice(0,3)==='DUP'){
-                    if(str[i][3].slice(4,str[i][3].length-1) === '?'){
-                        for(let j=0;j<SysConvert.to_decimal(str[i][2]);j++){
-                            ram.ramList.set(ram.ram_num,null);
-                            ram.ram_num++;
-                        }
-                    } else {
-                        for(let j=0;j<SysConvert.to_decimal(str[i][2]);j++){
-                            ram.ramList.set(ram.ram_num,SysConvert.to_decimal(str[i][3].slice(4,str[i][3].length-1)));
-                            ram.ram_num++;
+                if(str[i][3]){
+                    if(str[i][3].slice(0,3)==='DUP'){
+                        if(str[i][3].slice(4,str[i][3].length-1) === '?'){
+                            for(let j=0;j<SysConvert.to_decimal(str[i][2]);j++){
+                                ram.ramList.set(ram.ram_num,null);
+                                ram.ram_num++;
+                            }
+                        } else {
+                            for(let j=0;j<SysConvert.to_decimal(str[i][2]);j++){
+                                ram.ramList.set(ram.ram_num,SysConvert.to_decimal(str[i][3].slice(4,str[i][3].length-1)));
+                                ram.ram_num++;
+                            }
                         }
                     }
-                }else {
+                }
+                else {
                     for(let j=2;j<str[i].length;j++){
                         str[i][j]==='?' ? ram.ramList.set(ram.ram_num,null):ram.ramList.set(ram.ram_num,SysConvert.to_hexadecimal(str[i][j]));
                         ram.ram_num++;
@@ -39,25 +42,28 @@ class Anticipation{
             }
             else if(str[i][1]==='DW'){
                 ram.dw_variable.set(str[i][0],ram.ram_num);
-                if(str[i][3].slice(0,3)==='DUP'){
-                    if(str[i][3].slice(4,str[i][3].length-1) === '?'){
-                        for(let j=0;j<SysConvert.to_decimal(str[i][2]);j++){
-                            ram.ramList.set(ram.ram_num,null);
-                            ram.ram_num++;
-                            ram.ramList.set(ram.ram_num,null);
-                            ram.ram_num++;
-                        }
-                    } else {
-                        for(let j=0;j<SysConvert.to_decimal(str[i][2]);j++){
-                            let h = Math.floor(SysConvert.to_decimal(str[i][3].slice(4,str[i][3].length-1))/256);
-                            let l = SysConvert.to_decimal(str[i][3].slice(4,str[i][3].length-1))%256;
-                            ram.ramList.set(ram.ram_num,l);
-                            ram.ram_num++;
-                            ram.ramList.set(ram.ram_num,h);
-                            ram.ram_num++;
+                if(str[i][3]){
+                    if(str[i][3].slice(0,3)==='DUP'){
+                        if(str[i][3].slice(4,str[i][3].length-1) === '?'){
+                            for(let j=0;j<SysConvert.to_decimal(str[i][2]);j++){
+                                ram.ramList.set(ram.ram_num,null);
+                                ram.ram_num++;
+                                ram.ramList.set(ram.ram_num,null);
+                                ram.ram_num++;
+                            }
+                        } else {
+                            for(let j=0;j<SysConvert.to_decimal(str[i][2]);j++){
+                                let h = Math.floor(SysConvert.to_decimal(str[i][3].slice(4,str[i][3].length-1))/256);
+                                let l = SysConvert.to_decimal(str[i][3].slice(4,str[i][3].length-1))%256;
+                                ram.ramList.set(ram.ram_num,l);
+                                ram.ram_num++;
+                                ram.ramList.set(ram.ram_num,h);
+                                ram.ram_num++;
+                            }
                         }
                     }
-                }else {
+                }
+                else {
                     for(let j=2;j<str[i].length;j++){
                         if(str[i][j]==='?'){
                             ram.ramList.set(ram.ram_num,null);
@@ -87,19 +93,21 @@ class Anticipation{
         for(let i=0;i<str.length;i++){
             if(str[i][0]==='DB'){
                 ram.db_variable.set('STACK',ram.ram_num);
-                if(str[i][2].slice(0,3)==='DUP'){
-                    if(str[i][2].slice(4,str[i][2].length-1) === '?'){
-                        for(let j=0;j<SysConvert.to_decimal(str[i][1]);j++){
-                            ram.ramList.set(ram.ram_num,null);
-                            ram.ram_num++;
-                        }
-                    } else {
-                        for(let j=0;j<SysConvert.to_decimal(str[i][1]);j++){
-                            ram.ramList.set(ram.ram_num,SysConvert.to_decimal(str[i][2].slice(4,str[i][2].length-1)));
-                            ram.ram_num++;
+                if(str[i][2]){
+                    if(str[i][2].slice(0,3)==='DUP'){
+                        if(str[i][2].slice(4,str[i][2].length-1) === '?'){
+                            for(let j=0;j<SysConvert.to_decimal(str[i][1]);j++){
+                                ram.ramList.set(ram.ram_num,null);
+                                ram.ram_num++;
+                            }
+                        } else {
+                            for(let j=0;j<SysConvert.to_decimal(str[i][1]);j++){
+                                ram.ramList.set(ram.ram_num,SysConvert.to_decimal(str[i][2].slice(4,str[i][2].length-1)));
+                                ram.ram_num++;
+                            }
                         }
                     }
-                }else {
+                } else {
                     for(let j=1;j<str[i].length;j++){
                         str[i][j]==='?' ? ram.ramList.set(ram.ram_num,null):ram.ramList.set(ram.ram_num,SysConvert.to_hexadecimal(str[i][j]));
                         ram.ram_num++;
@@ -108,25 +116,27 @@ class Anticipation{
             }
             else if(str[i][0]==='DW'){
                 ram.dw_variable.set('STACK',ram.ram_num);
-                if(str[i][2].slice(0,3)==='DUP'){
-                    if(str[i][2].slice(4,str[i][2].length-1) === '?'){
-                        for(let j=0;j<SysConvert.to_decimal(str[i][1]);j++){
-                            ram.ramList.set(ram.ram_num,null);
-                            ram.ram_num++;
-                            ram.ramList.set(ram.ram_num,null);
-                            ram.ram_num++;
-                        }
-                    } else {
-                        for(let j=0;j<SysConvert.to_decimal(str[i][1]);j++){
-                            let h = Math.floor(SysConvert.to_decimal(str[i][2].slice(4,str[i][2].length-1))/256);
-                            let l = SysConvert.to_decimal(str[i][2].slice(4,str[i][2].length-1))%256;
-                            ram.ramList.set(ram.ram_num,l);
-                            ram.ram_num++;
-                            ram.ramList.set(ram.ram_num,h);
-                            ram.ram_num++;
+                if(str[i][2]){
+                    if(str[i][2].slice(0,3)==='DUP'){
+                        if(str[i][2].slice(4,str[i][2].length-1) === '?'){
+                            for(let j=0;j<SysConvert.to_decimal(str[i][1]);j++){
+                                ram.ramList.set(ram.ram_num,null);
+                                ram.ram_num++;
+                                ram.ramList.set(ram.ram_num,null);
+                                ram.ram_num++;
+                            }
+                        } else {
+                            for(let j=0;j<SysConvert.to_decimal(str[i][1]);j++){
+                                let h = Math.floor(SysConvert.to_decimal(str[i][2].slice(4,str[i][2].length-1))/256);
+                                let l = SysConvert.to_decimal(str[i][2].slice(4,str[i][2].length-1))%256;
+                                ram.ramList.set(ram.ram_num,l);
+                                ram.ram_num++;
+                                ram.ramList.set(ram.ram_num,h);
+                                ram.ram_num++;
+                            }
                         }
                     }
-                }else {
+                } else {
                     for(let j=1;j<str[i].length;j++){
                         if(str[i][j]==='?'){
                             ram.ramList.set(ram.ram_num,null);
