@@ -17,59 +17,59 @@ class Anticipation{
         str = this.getSegment(str,this.getSegmentName(str,'DS'));
         for(let i=0;i<str.length;i++){
             if(str[i][1]==='DB'){
-                ram.db_variable = new Map([[str[i][0],ram.ram_num]]);
+                ram.db_variable.set(str[i][0],ram.ram_num);
                 if(str[i][3].slice(0,3)==='DUP'){
                     if(str[i][3].slice(4,str[i][3].length-1) === '?'){
                         for(let j=0;j<SysConvert.to_decimal(str[i][2]);j++){
-                            ram.ramList = new Map([[ram.ram_num,null]]);
+                            ram.ramList.set(ram.ram_num,null);
                             ram.ram_num++;
                         }
                     } else {
                         for(let j=0;j<SysConvert.to_decimal(str[i][2]);j++){
-                            ram.ramList = new Map([[ram.ram_num,SysConvert.to_decimal(str[i][3].slice(4,str[i][3].length-1))]]);
+                            ram.ramList.set(ram.ram_num,SysConvert.to_decimal(str[i][3].slice(4,str[i][3].length-1)));
                             ram.ram_num++;
                         }
                     }
                 }else {
                     for(let j=2;j<str[i].length;j++){
-                        ram.ramList = str[i][j]==='?' ? new Map([[ram.ram_num,null]]):new Map([[ram_num,SysConvert.to_hexadecimal(str[i][j])]]);
+                        str[i][j]==='?' ? ram.ramList.set(ram.ram_num,null):ram.ramList.set(ram.ram_num,SysConvert.to_hexadecimal(str[i][j]));
                         ram.ram_num++;
                     }
                 }
             }
             else if(str[i][1]==='DW'){
-                ram.dw_variable = new Map([[str[i][0],ram.ram_num]]);
+                ram.dw_variable.set(str[i][0],ram.ram_num);
                 if(str[i][3].slice(0,3)==='DUP'){
                     if(str[i][3].slice(4,str[i][3].length-1) === '?'){
                         for(let j=0;j<SysConvert.to_decimal(str[i][2]);j++){
-                            ram.ramList = new Map([[ram.ram_num,null]]);
+                            ram.ramList.set(ram.ram_num,null);
                             ram.ram_num++;
-                            ram.ramList = new Map([[ram.ram_num,null]]);
+                            ram.ramList.set(ram.ram_num,null);
                             ram.ram_num++;
                         }
                     } else {
                         for(let j=0;j<SysConvert.to_decimal(str[i][2]);j++){
                             let h = Math.floor(SysConvert.to_decimal(str[i][3].slice(4,str[i][3].length-1))/256);
                             let l = SysConvert.to_decimal(str[i][3].slice(4,str[i][3].length-1))%256;
-                            ram.ramList = new Map([[ram.ram_num,l]]);
+                            ram.ramList.set(ram.ram_num,l);
                             ram.ram_num++;
-                            ram.ramList = new Map([[ram.ram_num,h]]);
+                            ram.ramList.set(ram.ram_num,h);
                             ram.ram_num++;
                         }
                     }
                 }else {
                     for(let j=2;j<str[i].length;j++){
                         if(str[i][j]==='?'){
-                            ram.ramList = new Map([[ram.ram_num,null]]);
+                            ram.ramList.set(ram.ram_num,null);
                             ram.ram_num++;
-                            ram.ramList = new Map([[ram.ram_num,null]]);
+                            ram.ramList.set(ram.ram_num,null);
                             ram.ram_num++;
                         }else{
                             let h = Math.floor(SysConvert.to_decimal(str[i][j])/256);
                             let l = SysConvert.to_decimal(str[i][j])%256;
-                            ram.ramList = new Map([[ram.ram_num,l]]);
+                            ram.ramList.set(ram.ram_num,l);
                             ram.ram_num++;
-                            ram.ramList = new Map([[ram.ram_num,h]]);
+                            ram.ramList.set(ram.ram_num,h);
                             ram.ram_num++;
                         }
                     }
@@ -86,59 +86,59 @@ class Anticipation{
         str = this.getSegment(str,this.getSegmentName(str,'SS'));
         for(let i=0;i<str.length;i++){
             if(str[i][0]==='DB'){
-                ram.db_variable = new Map([['STACK',ram.ram_num]]);
+                ram.db_variable.set('STACK',ram.ram_num);
                 if(str[i][2].slice(0,3)==='DUP'){
                     if(str[i][2].slice(4,str[i][2].length-1) === '?'){
                         for(let j=0;j<SysConvert.to_decimal(str[i][1]);j++){
-                            ram.ramList = new Map([[ram.ram_num,null]]);
+                            ram.ramList.set(ram.ram_num,null);
                             ram.ram_num++;
                         }
                     } else {
                         for(let j=0;j<SysConvert.to_decimal(str[i][1]);j++){
-                            ram.ramList = new Map([[ram.ram_num,SysConvert.to_decimal(str[i][2].slice(4,str[i][2].length-1))]]);
+                            ram.ramList.set(ram.ram_num,SysConvert.to_decimal(str[i][2].slice(4,str[i][2].length-1)));
                             ram.ram_num++;
                         }
                     }
                 }else {
                     for(let j=1;j<str[i].length;j++){
-                        ram.ramList = str[i][j]==='?' ? new Map([[ram.ram_num,null]]):new Map([[ram.ram_num,SysConvert.to_hexadecimal(str[i][j])]]);
+                        str[i][j]==='?' ? ram.ramList.set(ram.ram_num,null):ram.ramList.set(ram.ram_num,SysConvert.to_hexadecimal(str[i][j]));
                         ram.ram_num++;
                     }
                 }
             }
             else if(str[i][0]==='DW'){
-                ram.dw_variable = new Map([['STACK',ram.ram_num]]);
+                ram.dw_variable.set('STACK',ram.ram_num);
                 if(str[i][2].slice(0,3)==='DUP'){
                     if(str[i][2].slice(4,str[i][2].length-1) === '?'){
                         for(let j=0;j<SysConvert.to_decimal(str[i][1]);j++){
-                            ram.ramList = new Map([[ram.ram_num,null]]);
+                            ram.ramList.set(ram.ram_num,null);
                             ram.ram_num++;
-                            ram.ramList = new Map([[ram.ram_num,null]]);
+                            ram.ramList.set(ram.ram_num,null);
                             ram.ram_num++;
                         }
                     } else {
                         for(let j=0;j<SysConvert.to_decimal(str[i][1]);j++){
                             let h = Math.floor(SysConvert.to_decimal(str[i][2].slice(4,str[i][2].length-1))/256);
                             let l = SysConvert.to_decimal(str[i][2].slice(4,str[i][2].length-1))%256;
-                            ram.ramList = new Map([[ram.ram_num,l]]);
+                            ram.ramList.set(ram.ram_num,l);
                             ram.ram_num++;
-                            ram.ramList = new Map([[ram.ram_num,h]]);
+                            ram.ramList.set(ram.ram_num,h);
                             ram.ram_num++;
                         }
                     }
                 }else {
                     for(let j=1;j<str[i].length;j++){
                         if(str[i][j]==='?'){
-                            ram.ramList = new Map([[ram.ram_num,null]]);
+                            ram.ramList.set(ram.ram_num,null);
                             ram.ram_num++;
-                            ram.ramList = new Map([[ram.ram_num,null]]);
+                            ram.ramList.set(ram.ram_num,null);
                             ram.ram_num++;
                         }else{
                             let h = Math.floor(SysConvert.to_decimal(str[i][j])/256);
                             let l = SysConvert.to_decimal(str[i][j])%256;
-                            ram.ramList = new Map([[ram.ram_num,l]]);
+                            ram.ramList.set(ram.ram_num,l);
                             ram.ram_num++;
-                            ram.ramList = new Map([[ram.ram_num,h]]);
+                            ram.ramList.set(ram.ram_num,h);
                             ram.ram_num++;
                         }
                     }
@@ -156,10 +156,10 @@ class Anticipation{
         for(let i=0;i<str.length;i++){
             if(str[i][0].charAt(str[i][0].length-1)===':'){
                 let label = str[i][0].replace(":","");
-                ram.label_variable = new Map([label,ram.ram_num]);
+                ram.label_variable.set(label,ram.ram_num);
                 str[i] = str[i].slice(1,length);
             }
-            ram = new Map([[ram.ram_num,str[i]]]);
+            ram.ramList.set(ram.ram_num,str[i]);
             if(str[i].length===1){
                 ram.ram_num++;
             }else if(str[i].length ===2){
