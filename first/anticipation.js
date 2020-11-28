@@ -27,7 +27,7 @@ class Anticipation{
                             }
                         } else {
                             for(let j=0;j<SysConvert.to_decimal(str[i][2]);j++){
-                                ram.ramList.set(ram.ram_num,SysConvert.to_decimal(str[i][3].slice(4,str[i][3].length-1)));
+                                ram.ramList.set(ram.ram_num,SysConvert.to_hexadecimal(str[i][3].slice(4,str[i][3].length-1))+'H');
                                 ram.ram_num++;
                             }
                         }
@@ -35,7 +35,7 @@ class Anticipation{
                 }
                 else {
                     for(let j=2;j<str[i].length;j++){
-                        str[i][j]==='?' ? ram.ramList.set(ram.ram_num,null):ram.ramList.set(ram.ram_num,SysConvert.to_hexadecimal(str[i][j]));
+                        str[i][j]==='?' ? ram.ramList.set(ram.ram_num,null):ram.ramList.set(ram.ram_num,SysConvert.to_hexadecimal(str[i][j])+'H');
                         ram.ram_num++;
                     }
                 }
@@ -55,9 +55,9 @@ class Anticipation{
                             for(let j=0;j<SysConvert.to_decimal(str[i][2]);j++){
                                 let h = Math.floor(SysConvert.to_decimal(str[i][3].slice(4,str[i][3].length-1))/256);
                                 let l = SysConvert.to_decimal(str[i][3].slice(4,str[i][3].length-1))%256;
-                                ram.ramList.set(ram.ram_num,l);
+                                ram.ramList.set(ram.ram_num,SysConvert.to_hexadecimal(l)+'H');
                                 ram.ram_num++;
-                                ram.ramList.set(ram.ram_num,h);
+                                ram.ramList.set(ram.ram_num,SysConvert.to_hexadecimal(h)+'H');
                                 ram.ram_num++;
                             }
                         }
@@ -73,9 +73,9 @@ class Anticipation{
                         }else{
                             let h = Math.floor(SysConvert.to_decimal(str[i][j])/256);
                             let l = SysConvert.to_decimal(str[i][j])%256;
-                            ram.ramList.set(ram.ram_num,l);
+                            ram.ramList.set(ram.ram_num,SysConvert.to_hexadecimal(l)+'H');
                             ram.ram_num++;
-                            ram.ramList.set(ram.ram_num,h);
+                            ram.ramList.set(ram.ram_num,SysConvert.to_hexadecimal(h)+'H');
                             ram.ram_num++;
                         }
                     }
@@ -102,14 +102,14 @@ class Anticipation{
                             }
                         } else {
                             for(let j=0;j<SysConvert.to_decimal(str[i][1]);j++){
-                                ram.ramList.set(ram.ram_num,SysConvert.to_decimal(str[i][2].slice(4,str[i][2].length-1)));
+                                ram.ramList.set(ram.ram_num,SysConvert.to_hexadecimal(str[i][2].slice(4,str[i][2].length-1))+'H');
                                 ram.ram_num++;
                             }
                         }
                     }
                 } else {
                     for(let j=1;j<str[i].length;j++){
-                        str[i][j]==='?' ? ram.ramList.set(ram.ram_num,null):ram.ramList.set(ram.ram_num,SysConvert.to_hexadecimal(str[i][j]));
+                        str[i][j]==='?' ? ram.ramList.set(ram.ram_num,null):ram.ramList.set(ram.ram_num,SysConvert.to_hexadecimal(str[i][j])+'H');
                         ram.ram_num++;
                     }
                 }
@@ -129,9 +129,9 @@ class Anticipation{
                             for(let j=0;j<SysConvert.to_decimal(str[i][1]);j++){
                                 let h = Math.floor(SysConvert.to_decimal(str[i][2].slice(4,str[i][2].length-1))/256);
                                 let l = SysConvert.to_decimal(str[i][2].slice(4,str[i][2].length-1))%256;
-                                ram.ramList.set(ram.ram_num,l);
+                                ram.ramList.set(ram.ram_num,SysConvert.to_hexadecimal(l)+'H');
                                 ram.ram_num++;
-                                ram.ramList.set(ram.ram_num,h);
+                                ram.ramList.set(ram.ram_num,SysConvert.to_hexadecimal(h)+'H');
                                 ram.ram_num++;
                             }
                         }
@@ -146,9 +146,9 @@ class Anticipation{
                         }else{
                             let h = Math.floor(SysConvert.to_decimal(str[i][j])/256);
                             let l = SysConvert.to_decimal(str[i][j])%256;
-                            ram.ramList.set(ram.ram_num,l);
+                            ram.ramList.set(ram.ram_num,SysConvert.to_hexadecimal(l)+'H');
                             ram.ram_num++;
-                            ram.ramList.set(ram.ram_num,h);
+                            ram.ramList.set(ram.ram_num,SysConvert.to_hexadecimal(h)+'H');
                             ram.ram_num++;
                         }
                     }

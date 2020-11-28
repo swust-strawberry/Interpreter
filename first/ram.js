@@ -5,6 +5,7 @@ class Ram{
         this.dw_variable = new Map();
         this.label_variable = new Map();
         this.ramList = new Map();
+        this.ioList = new Map();
         this.chip = new Chip();
     }
 
