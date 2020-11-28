@@ -14,6 +14,7 @@ class Anticipation{
     数据段定义的处理
      */
     static dataSegment(str,ram){
+        ram.segNameList.set(this.getSegmentName(str,'DS'),SysConvert.to_hexadecimal(Math.floor(ram.ram_num/16))+'H');
         str = this.getSegment(str,this.getSegmentName(str,'DS'));
         for(let i=0;i<str.length;i++){
             if(str[i][1]==='DB'){
@@ -89,6 +90,7 @@ class Anticipation{
     堆栈段定义的处理
      */
     static stackSegment(str,ram){
+        ram.segNameList.set(this.getSegmentName(str,'SS'),SysConvert.to_hexadecimal(Math.floor(ram.ram_num/16))+'H');
         str = this.getSegment(str,this.getSegmentName(str,'SS'));
         for(let i=0;i<str.length;i++){
             if(str[i][0]==='DB'){
@@ -162,6 +164,7 @@ class Anticipation{
     代码段的处理，存指令
      */
     static store_instruction(str,ram){
+        ram.segNameList.set(this.getSegmentName(str,'CS'),SysConvert.to_hexadecimal(Math.floor(ram.ram_num/16))+'H');
         str = this.getSegment(str,this.getSegmentName(str,'CS'));
         for(let i=0;i<str.length;i++){
             if(str[i][0].charAt(str[i][0].length-1)===':'){
@@ -169,6 +172,13 @@ class Anticipation{
                 ram.label_variable.set(label,ram.ram_num);
                 str[i] = str[i].slice(1,length);
             }
+                if(str[i][1]==='PROC'){
+                    ram.procedureNameList.set(str[i][0],ram.ram_num);
+                    continue;
+                }
+                if(str[i][1]==='ENDP'){
+                    continue;
+                }
             ram.ramList.set(ram.ram_num,str[i]);
             if(str[i].length===1){
                 ram.ram_num++;
@@ -181,9 +191,6 @@ class Anticipation{
         return ram;
     }
 
-    static subroutine(str){
-
-    }
     static getSegment(str,segmentName){     //得到指定段的内容
         str = this.separate_wholeCode(str);
         for(let i=0;i<str.length;i++) {
@@ -216,7 +223,7 @@ class Anticipation{
         str = this.clear_note(str);
         str = str.trim();
         for(let i=0;i<str.length;i++){
-            if(str.charAt(i)===':'){
+            if(str.charAt(i) ===':'){
                 str = this.insertStr(str,i+1,' ');
             }
         }
