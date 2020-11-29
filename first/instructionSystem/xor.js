@@ -36,6 +36,7 @@ class Xor
              num1[i] = (parseInt( num1[i] ) ^ parseInt( num2[i] )).toString();//后面是整数，前面是字符串
 
         ram.chip.setRegister ( order1.data , num1 );
+        return ram;
     }
 
 }
