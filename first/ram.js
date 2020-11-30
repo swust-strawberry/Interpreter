@@ -5,10 +5,12 @@ class Ram{
         this.dw_variable = new Map();
         this.label_variable = new Map();
         this.ramList = new Map();
-        this.segNameList = new Map();
+        this.segList = new Map();
+        this.seg_Name = new Map();
         // // this.ioList = new Map([['']]);
         this.procedureNameList = new Map();
         this.chip = new Chip();
+        this.start = null;
     }
 
     getRamByAddress(address){   //返回地址中的内容，即数据，数据的类型是numbers数组01串

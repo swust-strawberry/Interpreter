@@ -1,9 +1,9 @@
 class Control{
     static initRegister(ram){
-        let cs = ram.segNameList.get(Anticipation.getSegmentName('CS'));
-        let ss = ram.segNameList.get(Anticipation.getSegmentName('SS'));
-        let ds = ram.segNameList.get(Anticipation.getSegmentName('DS'));
-        let es = ram.segNameList.get('ES');
+        let cs = ram.segList.get(ram.seg_Name.get('CS'));
+        let ss = ram.segList.get(ram.seg_Name.get('SS'));
+        let ds = ram.segList.get(ram.seg_Name.get('DS'));
+        let es = ram.segList.get(ram.seg_Name.get('ES'));
         ram.chip.setRegister('CS',cs);
         ram.chip.setRegister('DS',ds);
         ram.chip.setRegister('SS',ss);
@@ -28,18 +28,19 @@ class Control{
         return ram.ramList.get(address);
     }
 
-    static upgradeIP(str,ram){
-        let byte = Anticipation.instructionByte(str);
+    static upgradeIP(instruction,ram){
+        let byte = Anticipation.instructionByte(instruction);
+        let offset_address = ram.chip.getRegisterByName('IP');
         let ip = SysConvert.to_hexadecimal(SysConvert.to_decimal(offset_address)+byte)+'H';
         ram.chip.setRegister('IP',ip);
         return ram;
     }
 
-    static analysisInstruction(str,ram){
-        ram = this.upgradeIP(str,ram);
-        if(str[0]==='MOV'){
-            return Mov.mov(str[1],str[2],ram);
-        }else if(str[0]===''){
+    static analysisInstruction(instruction,ram){
+        ram = this.upgradeIP(instruction,ram);
+        if(instruction[0]==='MOV'){
+            return Mov.mov(instruction[1],instruction[2],ram);
+        }else if(instruction[0]===''){
 
         }
     }

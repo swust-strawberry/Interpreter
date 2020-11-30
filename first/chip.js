@@ -34,16 +34,16 @@ class Chip{
     //
     // }
 
-    setRegister(name,data){   //将数据存入寄存器中，name是寄存器名，data是数据，这里的数据应该是一个16位的01字符串
+    setRegister(name,data){   //将数据存入寄存器中，name是寄存器名，data是数据
         if(name[1] === 'X'){
-            this.register.set(name,SysConvert.to_hexadecimal(data)+'H');
+            this.register.set(name,Anticipation.fullZero(SysConvert.to_hexadecimal(data)+'H',4));
             let h = Math.floor(SysConvert.to_decimal(data)/256);
-            this.register.set(name[0]+'H',SysConvert.to_hexadecimal(h)+'H');
+            this.register.set(name[0]+'H',Anticipation.fullZero(SysConvert.to_hexadecimal(h)+'H',2));
             let l = SysConvert.to_decimal(data)%256;
-            this.register.set(name[0]+'L',SysConvert.to_hexadecimal(l)+'H');
+            this.register.set(name[0]+'L',Anticipation.fullZero(SysConvert.to_hexadecimal(l)+'H',2));
         }else if(name === 'AH' || name === 'AL' || name === 'BH' || name === 'BL'
             || name === 'CH' || name === 'CL' || name === 'DH' || name === 'DL' ){
-            this.register.set(name,SysConvert.to_hexadecimal(data)+'H');
+            this.register.set(name,Anticipation.fullZero(SysConvert.to_hexadecimal(data)+'H',2));
             let h,l;
             if(name[1]==='H'){
                 h = SysConvert.to_decimal(this.getRegisterByName(name))*256;
@@ -52,8 +52,8 @@ class Chip{
                 h = SysConvert.to_decimal(this.getRegisterByName(name[0]+'H'))*256;
                 l = SysConvert.to_decimal(this.getRegisterByName(name));
             }
-            this.register.set(name[0]+'X',SysConvert.to_hexadecimal(h+l)+'H');
-        } else this.register.set(name,data);
+            this.register.set(name[0]+'X',Anticipation.fullZero(SysConvert.to_hexadecimal(h+l)+'H',4));
+        } else this.register.set(name,Anticipation.fullZero(SysConvert.to_hexadecimal(data)+'H',4));
     }
     // setPort(name,value){
     //

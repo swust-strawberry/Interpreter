@@ -4,33 +4,39 @@ class Anticipation{
     整个预处理，存指令，存数据
      */
     static anticipation(str,ram){
+        ram = this.setStart(str,ram);
         ram = this.store_instruction(str,ram);
         ram = this.dataSegment(str,ram);
         ram = this.stackSegment(str,ram);
-        ram.segNameList.set('ES',this.fullZero(SysConvert.to_hexadecimal(Math.floor(ram.ram_num/16))+'H',4));
+        ram.segList.set('ES',this.fullZero(SysConvert.to_hexadecimal(Math.floor(ram.ram_num/16))+'H',4));
+        ram.seg_Name.set('ES','ES');
         return ram;
     }
 
-    static getStart(str){    //程序的起始标号名
-        let start = null;
+    static setStart(str,ram){    //程序的起始标号名
         str = this.separate_wholeCode(str);
         for(let i=0;i<str.length;i++){
             if(str[i][0]==='END'){
                 if(str[i][1]){
-                    start = str[i][1];
+                    ram.start = str[i][1];
                     break;
                 }
             }
         }
-        return start;
+        return ram;
     }
+
     /*
     数据段定义的处理
      */
     static dataSegment(str,ram){
-        ram.segNameList.set(this.getSegmentName(str,'DS'),this.fullZero(SysConvert.to_hexadecimal(Math.floor(ram.ram_num/16))+'H',4));
+        ram.segList.set(this.getSegmentName(str,'DS'),this.fullZero(SysConvert.to_hexadecimal(Math.floor(ram.ram_num/16))+'H',4));
+        ram.seg_Name.set('DS',this.getSegmentName(str,'DS'));
         str = this.getSegment(str,this.getSegmentName(str,'DS'));
         for(let i=0;i<str.length;i++){
+            if(str[i][0]==='ORG'){
+                ram.ram_num = SysConvert.to_decimal(str[i][1])*16;
+            }
             if(str[i][1]==='DB'){
                 ram.db_variable.set(str[i][0],ram.ram_num);
                 if(str[i][3]){
@@ -42,7 +48,7 @@ class Anticipation{
                             }
                         } else {
                             for(let j=0;j<SysConvert.to_decimal(str[i][2]);j++){
-                                ram.ramList.set(ram.ram_num,SysConvert.to_hexadecimal(str[i][3].slice(4,str[i][3].length-1))+'H');
+                                ram.ramList.set(ram.ram_num,this.fullZero(SysConvert.to_hexadecimal(str[i][3].slice(4,str[i][3].length-1))+'H',2));
                                 ram.ram_num++;
                             }
                         }
@@ -50,7 +56,7 @@ class Anticipation{
                 }
                 else {
                     for(let j=2;j<str[i].length;j++){
-                        str[i][j]==='?' ? ram.ramList.set(ram.ram_num,null):ram.ramList.set(ram.ram_num,SysConvert.to_hexadecimal(str[i][j])+'H');
+                        str[i][j]==='?' ? ram.ramList.set(ram.ram_num,null):ram.ramList.set(ram.ram_num,this.fullZero(SysConvert.to_hexadecimal(str[i][j])+'H',2));
                         ram.ram_num++;
                     }
                 }
@@ -70,9 +76,9 @@ class Anticipation{
                             for(let j=0;j<SysConvert.to_decimal(str[i][2]);j++){
                                 let h = Math.floor(SysConvert.to_decimal(str[i][3].slice(4,str[i][3].length-1))/256);
                                 let l = SysConvert.to_decimal(str[i][3].slice(4,str[i][3].length-1))%256;
-                                ram.ramList.set(ram.ram_num,SysConvert.to_hexadecimal(l)+'H');
+                                ram.ramList.set(ram.ram_num,this.fullZero(SysConvert.to_hexadecimal(l)+'H',2));
                                 ram.ram_num++;
-                                ram.ramList.set(ram.ram_num,SysConvert.to_hexadecimal(h)+'H');
+                                ram.ramList.set(ram.ram_num,this.fullZero(SysConvert.to_hexadecimal(h)+'H',2));
                                 ram.ram_num++;
                             }
                         }
@@ -88,9 +94,9 @@ class Anticipation{
                         }else{
                             let h = Math.floor(SysConvert.to_decimal(str[i][j])/256);
                             let l = SysConvert.to_decimal(str[i][j])%256;
-                            ram.ramList.set(ram.ram_num,SysConvert.to_hexadecimal(l)+'H');
+                            ram.ramList.set(ram.ram_num,this.fullZero(SysConvert.to_hexadecimal(l)+'H',2));
                             ram.ram_num++;
-                            ram.ramList.set(ram.ram_num,SysConvert.to_hexadecimal(h)+'H');
+                            ram.ramList.set(ram.ram_num,this.fullZero(SysConvert.to_hexadecimal(h)+'H',2));
                             ram.ram_num++;
                         }
                     }
@@ -104,9 +110,13 @@ class Anticipation{
     堆栈段定义的处理
      */
     static stackSegment(str,ram){
-        ram.segNameList.set(this.getSegmentName(str,'SS'),this.fullZero(SysConvert.to_hexadecimal(Math.floor(ram.ram_num/16))+'H',4));
+        ram.segList.set(this.getSegmentName(str,'SS'),this.fullZero(SysConvert.to_hexadecimal(Math.floor(ram.ram_num/16))+'H',4));
+        ram.seg_Name.set('SS',this.getSegmentName(str,'SS'));
         str = this.getSegment(str,this.getSegmentName(str,'SS'));
         for(let i=0;i<str.length;i++){
+            if(str[i][0]==='ORG'){
+                ram.ram_num = SysConvert.to_decimal(str[i][1])*16;
+            }
             if(str[i][0]==='DB'){
                 ram.db_variable.set('STACK',ram.ram_num);
                 if(str[i][2]){
@@ -118,14 +128,14 @@ class Anticipation{
                             }
                         } else {
                             for(let j=0;j<SysConvert.to_decimal(str[i][1]);j++){
-                                ram.ramList.set(ram.ram_num,SysConvert.to_hexadecimal(str[i][2].slice(4,str[i][2].length-1))+'H');
+                                ram.ramList.set(ram.ram_num,this.fullZero(SysConvert.to_hexadecimal(str[i][2].slice(4,str[i][2].length-1))+'H',2));
                                 ram.ram_num++;
                             }
                         }
                     }
                 } else {
                     for(let j=1;j<str[i].length;j++){
-                        str[i][j]==='?' ? ram.ramList.set(ram.ram_num,null):ram.ramList.set(ram.ram_num,SysConvert.to_hexadecimal(str[i][j])+'H');
+                        str[i][j]==='?' ? ram.ramList.set(ram.ram_num,null):ram.ramList.set(ram.ram_num,this.fullZero(SysConvert.to_hexadecimal(str[i][j])+'H',2));
                         ram.ram_num++;
                     }
                 }
@@ -145,9 +155,9 @@ class Anticipation{
                             for(let j=0;j<SysConvert.to_decimal(str[i][1]);j++){
                                 let h = Math.floor(SysConvert.to_decimal(str[i][2].slice(4,str[i][2].length-1))/256);
                                 let l = SysConvert.to_decimal(str[i][2].slice(4,str[i][2].length-1))%256;
-                                ram.ramList.set(ram.ram_num,SysConvert.to_hexadecimal(l)+'H');
+                                ram.ramList.set(ram.ram_num,this.fullZero(SysConvert.to_hexadecimal(l)+'H',2));
                                 ram.ram_num++;
-                                ram.ramList.set(ram.ram_num,SysConvert.to_hexadecimal(h)+'H');
+                                ram.ramList.set(ram.ram_num,this.fullZero(SysConvert.to_hexadecimal(h)+'H',2));
                                 ram.ram_num++;
                             }
                         }
@@ -162,9 +172,9 @@ class Anticipation{
                         }else{
                             let h = Math.floor(SysConvert.to_decimal(str[i][j])/256);
                             let l = SysConvert.to_decimal(str[i][j])%256;
-                            ram.ramList.set(ram.ram_num,SysConvert.to_hexadecimal(l)+'H');
+                            ram.ramList.set(ram.ram_num,this.fullZero(SysConvert.to_hexadecimal(l)+'H',2));
                             ram.ram_num++;
-                            ram.ramList.set(ram.ram_num,SysConvert.to_hexadecimal(h)+'H');
+                            ram.ramList.set(ram.ram_num,this.fullZero(SysConvert.to_hexadecimal(h)+'H',2));
                             ram.ram_num++;
                         }
                     }
@@ -178,9 +188,13 @@ class Anticipation{
     代码段的处理，存指令
      */
     static store_instruction(str,ram){
-        ram.segNameList.set(this.getSegmentName(str,'CS'),this.fullZero(SysConvert.to_hexadecimal(Math.floor(ram.ram_num/16))+'H',4));
+        ram.segList.set(this.getSegmentName(str,'CS'),this.fullZero(SysConvert.to_hexadecimal(Math.floor(ram.ram_num/16))+'H',4));
+        ram.seg_Name.set('CS',this.getSegmentName(str,'CS'));
         str = this.getSegment(str,this.getSegmentName(str,'CS'));
         for(let i=0;i<str.length;i++){
+            if(str[i][0]==='ORG'){
+                ram.ram_num = SysConvert.to_decimal(str[i][1])*16;
+            }
             if(str[i][0].charAt(str[i][0].length-1)===':'){
                 let label = str[i][0].replace(":","");
                 ram.label_variable.set(label,ram.ram_num);
