@@ -51,4 +51,5 @@ class SysConvert{
         else
             return str[0]==='-'?0-parseInt(str.slice(1,str.length),10):parseInt(str,10);
     }
+
 }

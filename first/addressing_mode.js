@@ -1,7 +1,7 @@
 class Addressing_mode {
 
-    //直接寻址
-    static direct(str, chip) {
+    //直接寻址-----1
+    static direct(str, ram) {
         let offset, seg;
         let colon = this.judge_colon(str);
         if (colon) {    //指定段地址
@@ -11,11 +11,11 @@ class Addressing_mode {
             offset = str.slice(1, str.length - 1);
             seg = 'DS';
         }
-        return SysConvert.to_decimal(chip.getRegisterByName(seg))*16 + SysConvert.to_decimal(offset);
+        return SysConvert.to_decimal(ram.chip.getRegisterByName(seg))*16 + SysConvert.to_decimal(offset);
     }
 
-    //寄存器间接寻址
-    static register_indirect(str, chip) {
+    //寄存器间接寻址-----2
+    static register_indirect(str, ram) {
         let reg, seg;
         let colon = this.judge_colon(str)
         if (colon) {      //指定段地址
@@ -25,11 +25,11 @@ class Addressing_mode {
             reg = str.slice(1, str.length - 1);
             seg = this.get_seg(reg);
         }
-        return SysConvert.to_decimal(chip.getRegisterByName(reg)) + SysConvert.to_decimal(chip.getRegisterByName(seg))*16;
+        return SysConvert.to_decimal(ram.chip.getRegisterByName(reg)) + SysConvert.to_decimal(ram.chip.getRegisterByName(seg))*16;
     }
 
-    //寄存器相对寻址
-    static register_relative(str, chip) {
+    //寄存器相对寻址-----3
+    static register_relative(str, ram) {
         let reg, seg, rel;
         let colon = this.judge_colon(str);
         if (colon) {     //指定段地址
@@ -41,11 +41,11 @@ class Addressing_mode {
             rel = str[3] === '+' ? str.slice(4, str.length - 1) : str.slice(3, str.length - 1);
             seg = this.get_seg(reg);
         }
-        return SysConvert.to_decimal(chip.getRegisterByName(seg))*16 + SysConvert.to_decimal(chip.getRegisterByName(reg)) + SysConvert.to_decimal(rel);
+        return SysConvert.to_decimal(ram.chip.getRegisterByName(seg))*16 + SysConvert.to_decimal(ram.chip.getRegisterByName(reg)) + SysConvert.to_decimal(rel);
     }
 
-    //基址变址
-    static base_indexed(str, chip) {
+    //基址变址------4
+    static base_indexed(str, ram) {
         let reg_base, reg_index, seg;
         let colon = this.judge_colon(str);
         if (colon) {    //指定段地址
@@ -57,11 +57,11 @@ class Addressing_mode {
             reg_index = str.slice(str.length - 3, str.length - 1);
             seg = (reg_base === 'BP' || reg_index === 'BP') ? 'SS' : 'DS';
         }
-        return SysConvert.to_decimal(chip.getRegisterByName(seg))*16 + SysConvert.to_decimal(chip.getRegisterByName(reg_base)) + SysConvert.to_decimal(chip.getRegisterByName(reg_index));
+        return SysConvert.to_decimal(ram.chip.getRegisterByName(seg))*16 + SysConvert.to_decimal(ram.chip.getRegisterByName(reg_base)) + SysConvert.to_decimal(ram.chip.getRegisterByName(reg_index));
     }
 
-    //相对基址变址
-    static relative_base_indexed(str, chip) {
+    //相对基址变址-----5
+    static relative_base_indexed(str, ram) {
         let reg_base, reg_index, rel, seg;
         let colon = this.judge_colon(str);
         if (colon) {     //指定段地址
@@ -75,25 +75,45 @@ class Addressing_mode {
             rel = str[6] === '+' ? str.slice(7, str.length - 1) : str.slice(6, str.length - 1);
             seg = (reg_base === 'BP' || reg_index === 'BP') ? 'SS' : 'DS';
         }
-        return SysConvert.to_decimal(chip.getRegisterByName(seg))*16 + SysConvert.to_decimal(chip.getRegisterByName(reg_base)) + SysConvert.to_decimal(chip.getRegisterByName(reg_index)) + SysConvert.to_decimal(rel);
+        return SysConvert.to_decimal(ram.chip.getRegisterByName(seg))*16 + SysConvert.to_decimal(ram.chip.getRegisterByName(reg_base)) + SysConvert.to_decimal(ram.chip.getRegisterByName(reg_index)) + SysConvert.to_decimal(rel);
     }
 
-    static to_addressing(str, chip) {
+    static to_addressing(str, ram) {
         let colon = this.judge_colon(str);
         let flag = colon ? colon + 1 : colon;
         if (str[flag + 3] === '+') {
             if (str[flag + 6] === '+' || str[flag + 6] === '-') {
-                this.relative_base_indexed(str, chip);
+                return this.relative_base_indexed(str, ram);
             } else if (this.judge_reg(str.slice(flag + 4, flag + 6))) {
-                this.base_indexed(str, chip);
+                this.base_indexed(str, ram);
             } else {
-                this.register_relative(str, chip);
+                this.register_relative(str, ram);
             }
         } else {
             if (this.judge_reg(str.slice(flag + 1, flag + 3))) {
-                this.register_indirect(str, chip);
+                this.register_indirect(str, ram);
             } else {
-                this.direct(str, chip);
+                this.direct(str, ram);
+            }
+        }
+    }
+
+    static byte(str){
+        let colon = this.judge_colon(str);
+        let flag = colon ? colon + 1 : colon;
+        if (str[flag + 3] === '+') {
+            if (str[flag + 6] === '+' || str[flag + 6] === '-') {
+                return 5;
+            } else if (this.judge_reg(str.slice(flag + 4, flag + 6))) {
+                return 4;
+            } else {
+                return 3;
+            }
+        } else {
+            if (this.judge_reg(str.slice(flag + 1, flag + 3))) {
+                return 2;
+            } else {
+                return 1;
             }
         }
     }

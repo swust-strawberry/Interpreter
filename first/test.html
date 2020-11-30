@@ -9,19 +9,19 @@
 <script type="text/javascript" src="sysConvert.js" ></script>
 <script type="text/javascript" src="anticipation.js"></script>
 <script type="text/javascript" src="/Interpreter/first/instructionSystem/mov.js"></script>
+<script type="text/javascript" src="control.js"></script>
+<script type="text/javascript" src="addressing_mode.js"></script>
 
 <script type="text/javascript" src="ram.js">
 
 </script>
 <script>
     let ram = new Ram();
-let str = ["DATA  SEGMENT","STR1  DB  12","SG1 DW 54","STR2  DB  ?","STR3 DB 6 DUP(16)","DATA  ENDS","STACK SEGMENT","DB 5 DUP(16)","STACK ENDS","CODE  SEGMENT","ASSUME    CS:CODE,DS:DATA,SS:STACK","MAIN:   MOV   A   ,01H;1234",   "MOV A  ,01H;  123 ","  CLR C; 位修改  ","   END; 12345  ","CODE  ENDS"];
-// ram = Anticipation.anticipation(str,ram);
+    let str = ["DATA  SEGMENT","STR1  DB  12","SG1 DW 54","STR2  DB  ?","STR3 DB 6 DUP(16)","DATA  ENDS","STACK SEGMENT","DB 5 DUP(16)","STACK ENDS","CODE  SEGMENT","ASSUME    CS:CODE,DS:DATA,SS:STACK","MAIN:   MOV   AL ,01H;1234",   "MOV BX  ,2381H;  123 ","JMP 1323H","LOOP MAIN","  CLR; 位修改  ","   END; 12345  ","CODE  ENDS"];
     ram = Anticipation.anticipation(str,ram);
-    ram = Mov.mov('AX','8E4FH',ram);
-console.log(ram);
-console.log(ram.chip);
-console.log(ram.chip.getRegisterByName('AX'));
+    // ram = Control.initRegister(ram);
+    // ram = Control.analysisInstruction(Control.getInstruction(ram));
+    console.log(ram);
 </script>
 </body>
 </html>
