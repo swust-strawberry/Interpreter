@@ -17,9 +17,10 @@
 </script>
 <script>
     let ram = new Ram();
-    let str = ["DATA  SEGMENT","STR1  DB  12","SG1 DW 54","STR2  DB  ?","STR3 DB 6 DUP(16)","DATA  ENDS","STACK SEGMENT","DB 5 DUP(16)","STACK ENDS","CODE  SEGMENT","ASSUME    CS:CODE,DS:DATA,SS:STACK","MAIN:   MOV   AL ,01H;1234",   "MOV BX  ,2381H;  123 ","JMP 1323H","LOOP MAIN","  CLR; 位修改  ","CODE  ENDS","   END MAIN; 12345  "];
+    let str = ["DATA  SEGMENT","STR1  DB  12","SG1 DW 54","STR2  DB  ?","STR3 DB 6 DUP(16)","DATA  ENDS","STACK SEGMENT","DB 5 DUP(16)","STACK ENDS","CODE  SEGMENT","ASSUME    CS:CODE,DS:DATA,SS:STACK","MAIN:   MOV   AL ,01H;1234",   "MOV BX  ,2381H;  123 ","LOOP MAIN","  CLR; 位修改  ","CODE  ENDS","   END MAIN; 12345  "];
     ram = Anticipation.anticipation(str,ram);
     ram = Control.initRegister(ram);
+    console.log(ram);
     let address;
     if(ram.start){
         address = ram.label_variable.get(ram.start);
@@ -30,6 +31,12 @@
     }
     let instruction = ram.ramList.get(address);
     ram = Control.analysisInstruction(instruction,ram);
+    let n=0
+    while(n<3){
+        instruction = Control.getInstruction(ram);
+        ram = Control.analysisInstruction(instruction,ram);
+        n++;
+    }
     console.log(ram);
 </script>
 </body>

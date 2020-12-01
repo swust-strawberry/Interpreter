@@ -30,9 +30,6 @@ class Chip{
     getRegisterByName(name){   //返回寄存器中的内容，返回的是8位或者16位的字符串
         return this.register.get(name);
     }
-    // getPort(name){
-    //
-    // }
 
     setRegister(name,data){   //将数据存入寄存器中，name是寄存器名，data是数据
         if(name[1] === 'X'){
@@ -55,8 +52,4 @@ class Chip{
             this.register.set(name[0]+'X',Anticipation.fullZero(SysConvert.to_hexadecimal(h+l)+'H',4));
         } else this.register.set(name,Anticipation.fullZero(SysConvert.to_hexadecimal(data)+'H',4));
     }
-    // setPort(name,value){
-    //
-    // }
-
 }
