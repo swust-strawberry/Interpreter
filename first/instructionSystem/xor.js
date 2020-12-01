@@ -1,42 +1,46 @@
 class Xor
 {
-    static xor(order1,order2,ram)
-    {
-        let k1 = ram.chip.getRamByAddress(order1).indexOf("[");//k1确定是否带】;
-        let k2 = ram.chip.getRamByAddress(order2).indexOf("[");//k2确定是否带】;
-        let num1;
-        let num2;
-
-        if(order1 === order2)//先判断是否相同操作数，则 置零
-        {
-            if(k1 === -1)
-            {
-                ram.chip.setRegister ( order1 , SysConvert.to_hexadecimal("0" +"H"));
-                return ram;
-            }
-            else
-            {
-                let reg = new RegExp("]","[")//"[","]"就不行
-                order1.replace(reg,"");//去【】
-                ram.chip.setRegister ( order1 , SysConvert.to_hexadecimal("0" + "H"));
-                return ram;
-            }
+    static xor(operand1,operand2,ram){
+        let num1,num2;
+        if(operand2.indexOf('[')!==-1){
+            num2 = ram.getRamByAddress(Addressing_mode.to_addressing(operand2,ram));
+        }else if(ram.db_variable.get(operand2)){
+            let address = ram.db_variable.get(operand2);
+            num2 = ram.getRamByAddress(address);
+        }else if(ram.dw_variable.get(operand2)){
+            let address = ram.dw_variable.get(operand2);
+            let h = ram.getRamByAddress(address+1);
+            let l = ram.getRamByAddress(address);
+            num2 = h.slice(0,2)+l;
+        }else if(ram.chip.getRegisterByName(operand2)){
+            num2 = ram.chip.getRegisterByName(operand2);
+        }else{
+            num2 = operand2;
         }
-
-        if(k1 ===-1)
-            num1 = SysConvert.to_binary(Addressing_mode.direct( ram.chip.getRamByAddress(order1) , ram ));
-        else
-            num1 = SysConvert.to_binary(Addressing_mode.register_indirect( ram.chip.getRamByAddress(order1) , ram ));
-        if(k2 ===-1)
-            num2 = SysConvert.to_binary(Addressing_mode.direct( ram.chip.getRamByAddress(order2) , ram ));
-        else
-            num2 = SysConvert.to_binary(Addressing_mode.register_indirect( ram.chip.getRamByAddress(order2) , ram ));
-
-        for(let i = 0 ; i < num1.length ; i++ )//按位异或
-             num1[i] = (parseInt( num1[i] ) ^ parseInt( num2[i] )).toString();//后面是整数，前面是字符串
-
-        ram.chip.setRegister ( order1 , SysConvert.to_hexadecimal(num1 + 'H'));
+        let endNum = String(),x,y;
+        if(operand1.indexOf('[')!==-1){
+            let address = Addressing_mode.to_addressing(operand1,ram);
+            num1 = ram.getRamByAddress(address);
+            x = Anticipation.fullZero(SysConvert.to_binary(num1),7);
+            y = Anticipation.fullZero(SysConvert.to_binary(num2),7);
+            for(let i=0;i<8;i++){
+                endNum += SysConvert.to_binary((SysConvert.to_decimal(x[i]+'B') ^ SysConvert.to_decimal(y[i]+'B'))+'B');
+            }
+            ram.setRam(address,Anticipation.fullZero(SysConvert.to_hexadecimal(endNum+'B')+'H',2));
+        }else if(ram.chip.getRegisterByName(operand1)){
+            num1 = ram.chip.getRegisterByName(operand1);
+            if(num1.length>3){
+                x = Anticipation.fullZero(SysConvert.to_binary(num1),15);
+                y = Anticipation.fullZero(SysConvert.to_binary(num2),15);
+            }else{
+                x = Anticipation.fullZero(SysConvert.to_binary(num1),7);
+                y = Anticipation.fullZero(SysConvert.to_binary(num1),7);
+            }
+            for(let i=0;i<x.length;i++){
+                endNum += SysConvert.to_binary((SysConvert.to_decimal(x[i]+'B') ^ SysConvert.to_decimal(y[i]+'B'))+'B');
+            }
+            ram.chip.setRegister(operand1,endNum);
+        }
         return ram;
     }
-
 }

@@ -257,13 +257,30 @@ class Anticipation{
         }
         str = str.replace(/,/g," ");
         str = str.split(" ");
-        let len=0;
-        let endStr = [];
+        let midLen=0;
+        let midStr = [];
         for(let i=0;i<str.length;i++) {
             if (str[i] !== "") {
-                endStr[len] = str[i];
-                len++;
+                midStr[midLen] = str[i];
+                midLen++;
             }
+        }
+        let endLen = 0;
+        let endStr = [];
+        if(midStr[0]!=='ASSUME'){
+            endStr[endLen] = midStr[0];
+            endLen++;
+            for(let i=1;i<midStr.length;i++){
+                if(midStr[i].charAt(midStr[i].length-1)===':'){
+                    endStr[endLen] = midStr[i]+midStr[i+1];
+                    i++;
+                }else{
+                    endStr[endLen] = midStr[i];
+                }
+                endLen++;
+            }
+        }else{
+            endStr = midStr;
         }
         return endStr;
     }

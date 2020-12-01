@@ -40,8 +40,8 @@ class Control{
         ram = this.upgradeIP(instruction,ram);
         if(instruction[0]==='MOV'){
             return Mov.mov(instruction[1],instruction[2],ram);
-        }else if(instruction[0]===''){
-
+        }else if(instruction[0]==='XOR'){
+            return Xor.xor(instruction[1],instruction[2],ram);
         }
     }
 }

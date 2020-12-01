@@ -85,15 +85,15 @@ class Addressing_mode {
             if (str[flag + 6] === '+' || str[flag + 6] === '-') {
                 return this.relative_base_indexed(str, ram);
             } else if (this.judge_reg(str.slice(flag + 4, flag + 6))) {
-                this.base_indexed(str, ram);
+                return this.base_indexed(str, ram);
             } else {
-                this.register_relative(str, ram);
+                return this.register_relative(str, ram);
             }
         } else {
             if (this.judge_reg(str.slice(flag + 1, flag + 3))) {
-                this.register_indirect(str, ram);
+                return this.register_indirect(str, ram);
             } else {
-                this.direct(str, ram);
+                return this.direct(str, ram);
             }
         }
     }

@@ -9,6 +9,8 @@
 <script type="text/javascript" src="sysConvert.js" ></script>
 <script type="text/javascript" src="anticipation.js"></script>
 <script type="text/javascript" src="/Interpreter/first/instructionSystem/mov.js"></script>
+<script type="text/javascript" src="/Interpreter/first/instructionSystem/xor.js"></script>
+
 <script type="text/javascript" src="control.js"></script>
 <script type="text/javascript" src="addressing_mode.js"></script>
 
@@ -17,8 +19,9 @@
 </script>
 <script>
     let ram = new Ram();
-    let str = ["DATA  SEGMENT","STR1  DB  12","SG1 DW 54","STR2  DB  ?","STR3 DB 6 DUP(16)","DATA  ENDS","STACK SEGMENT","DB 5 DUP(16)","STACK ENDS","CODE  SEGMENT","ASSUME    CS:CODE,DS:DATA,SS:STACK","MAIN:   MOV   AL ,01H;1234",   "MOV BX  ,2381H;  123 ","LOOP MAIN","  CLR; 位修改  ","CODE  ENDS","   END MAIN; 12345  "];
+    let str = ["DATA  SEGMENT","STR1  DB  12","SG1 DW 1234H","STR2  DB  ?","STR3 DB 6 DUP(16)","DATA  ENDS","STACK SEGMENT","DB 5 DUP(16)","STACK ENDS","CODE  SEGMENT","ASSUME    CS:CODE,DS:DATA,SS:STACK","MAIN:   MOV   AL ,01H;1234",   "MOV BX  ,2381H;  123 ","MOV BP,16","XOR DS:[BP],FFH","XOR BX,BX","LOOP MAIN","  CLR; 位修改  ","CODE  ENDS","   END MAIN; 12345  "];
     ram = Anticipation.anticipation(str,ram);
+
     ram = Control.initRegister(ram);
     console.log(ram);
     let address;
@@ -32,7 +35,7 @@
     let instruction = ram.ramList.get(address);
     ram = Control.analysisInstruction(instruction,ram);
     let n=0
-    while(n<3){
+    while(n<4){
         instruction = Control.getInstruction(ram);
         ram = Control.analysisInstruction(instruction,ram);
         n++;
