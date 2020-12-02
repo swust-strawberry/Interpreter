@@ -42,6 +42,10 @@ class Control{
             return Mov.mov(instruction[1],instruction[2],ram);
         }else if(instruction[0]==='XOR'){
             return Xor.xor(instruction[1],instruction[2],ram);
+        }else if(instruction[0]==='CALL'){
+            return Call.call(instruction[1],ram);
+        }else if(instruction[0]==='RET'){
+            return Call.ret(ram);
         }
     }
 }
