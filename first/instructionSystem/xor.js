@@ -4,11 +4,11 @@ class Xor
         let num1,num2;
         if(operand2.indexOf('[')!==-1){
             num2 = ram.getRamByAddress(Addressing_mode.to_addressing(operand2,ram));
-        }else if(ram.db_variable.get(operand2)){
-            let address = ram.db_variable.get(operand2);
+        }else if(ram.getDbVariable(operand2)){
+            let address = ram.getDbVariable(operand2);
             num2 = ram.getRamByAddress(address);
-        }else if(ram.dw_variable.get(operand2)){
-            let address = ram.dw_variable.get(operand2);
+        }else if(ram.getDwVariable(operand2)){
+            let address = ram.getDwVariable(operand2);
             let h = ram.getRamByAddress(address+1);
             let l = ram.getRamByAddress(address);
             num2 = h.slice(0,2)+l;

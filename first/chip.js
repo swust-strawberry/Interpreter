@@ -52,4 +52,60 @@ class Chip{
             this.register.set(name[0]+'X',Anticipation.fullZero(SysConvert.to_hexadecimal(h+l)+'H',4));
         } else this.register.set(name,Anticipation.fullZero(SysConvert.to_hexadecimal(data)+'H',4));
     }
+
+    getFlagByName(name){
+        let flags = Anticipation.fullZero(SysConvert.to_binary(this.register.get('FLAGS')),15);
+        if(name === 'CF'){
+            return flags[15];
+        }else if(name === 'PF'){
+            return flags[13];
+        }else if(name === 'AF'){
+            return flags[11];
+        }else if(name === 'ZF'){
+            return flags[9];
+        }else if(name === 'SF'){
+            return flags[8];
+        }else if(name === 'TF'){
+            return flags[7];
+        }else if(name === 'IF'){
+            return flags[6];
+        }else if(name === 'DF'){
+            return flags[5];
+        }else if(name === 'OF'){
+            return flags[4];
+        }else
+            return -1;
+    }
+
+    setFlagByName(name,data){
+        let flags = Anticipation.fullZero(SysConvert.to_binary(this.register.get('FLAGS')),15);
+        if(name === 'CF'){
+            flags[15] = data;
+        }
+        if(name === 'PF'){
+            flags[13] = data;
+        }
+        if(name === 'AF'){
+            flags[11] = data;
+        }
+        if(name === 'ZF'){
+            flags[9] = data;
+        }
+        if(name === 'SF'){
+            flags[8] = data;
+        }
+        if(name === 'TF'){
+            flags[7] = data;
+        }
+        if(name === 'IF'){
+            flags[6] = data;
+        }
+        if(name === 'DF'){
+            flags[5] = data;
+        }
+        if(name === 'OF'){
+            flags[4] = data;
+        }
+        this.setRegister('FLAGS',flags);
+    }
 }

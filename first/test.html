@@ -20,18 +20,18 @@
 </script>
 <script>
     let ram = new Ram();
-    let str = ["DATA  SEGMENT","STR1  DB  12","SG1 DW 1234H","STR2  DB  ?","STR3 DB 6 DUP(16)","DATA  ENDS","STACK SEGMENT","DB 5 DUP(16)","STACK ENDS","CODE  SEGMENT","ASSUME    CS:CODE,DS:DATA,SS:STACK","MAIN:   MOV   AL ,01H;1234",   "MOV BX  ,2381H;  123 ","MOV BP,16","CALL DELAY2","MOV CX,0010H ;","DELAY2 PROC NEAR","XOR BX,BX","RET ;返回","DELAY2 ENDP","CODE  ENDS","   END MAIN; 12345  "];
+    let str = ["DATA  SEGMENT","STR1  DB  12","SG1 DW 1234H","STR2  DB  ?","STR3 DB 6 DUP(16)","DATA  ENDS","STACK SEGMENT","DB 5 DUP(16)","STACK ENDS","CODE  SEGMENT","ASSUME    CS:CODE,DS:DATA,SS:STACK","MAIN:   MOV   CX ,0005H;1234","MOV BX  ,2381H;  123 ","MOV BP,16","S: ","CALL DELAY2","MOV CX,0010H ;","DELAY2 PROC NEAR","XOR BX,BX","RET ;返回","DELAY2 ENDP","CODE  ENDS","   END MAIN; 12345  "];
     ram = Anticipation.anticipation(str,ram);
     ram = Control.initRegister(ram);
     let address;
-    if(ram.start){
-        address = ram.label_variable.get(ram.start);
+    if(ram.getStart()){
+        address = ram.getLabelVariable(ram.getStart());
     }else{
         let cs = ram.chip.getRegisterByName('CS');
         let ip = ram.chip.getRegisterByName('IP');
         address = SysConvert.to_decimal(cs)*16+SysConvert.to_decimal(ip);
     }
-    let instruction = ram.ramList.get(address);
+    let instruction = ram.getRamByAddress(address);
     ram = Control.analysisInstruction(instruction,ram);
     let n=0
     while(n<5){

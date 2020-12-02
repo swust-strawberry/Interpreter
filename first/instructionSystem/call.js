@@ -24,8 +24,8 @@ class Call {
         ram.chip.setRegister("SP", Anticipation.fullZero(SysConvert.to_hexadecimal(sp) + 'H',4));//改变SP寄存器
         let currentAddress = SysConvert.to_decimal(currentCs) * 16 + SysConvert.to_decimal(currentIp);
         let flagAddress;
-        if(ram.procedureNameList.get(operand)) {//这一版本不考虑段间转移，因此只用改变IP
-            flagAddress = ram.procedureNameList.get(operand);
+        if(ram.getProcedureNameList(operand)) {//这一版本不考虑段间转移，因此只用改变IP
+            flagAddress = ram.getProcedureNameList(operand);
         }
         else{
             flagAddress = Addressing_mode.to_addressing(operand);

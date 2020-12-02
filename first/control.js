@@ -1,9 +1,9 @@
 class Control{
     static initRegister(ram){
-        let cs = ram.segList.get(ram.seg_Name.get('CS'));
-        let ss = ram.segList.get(ram.seg_Name.get('SS'));
-        let ds = ram.segList.get(ram.seg_Name.get('DS'));
-        let es = ram.segList.get(ram.seg_Name.get('ES'));
+        let cs = ram.getSegList(ram.seg_Name.get('CS'));
+        let ss = ram.getSegList(ram.seg_Name.get('SS'));
+        let ds = ram.getSegList(ram.seg_Name.get('DS'));
+        let es = ram.getSegList(ram.seg_Name.get('ES'));
         ram.chip.setRegister('CS',cs);
         ram.chip.setRegister('DS',ds);
         ram.chip.setRegister('SS',ss);
@@ -25,7 +25,7 @@ class Control{
         let seg_address = ram.chip.getRegisterByName('CS');
         let offset_address = ram.chip.getRegisterByName('IP');
         address = SysConvert.to_decimal(seg_address)*16 + SysConvert.to_decimal(offset_address);
-        return ram.ramList.get(address);
+        return ram.getRamByAddress(address);
     }
 
     static upgradeIP(instruction,ram){
@@ -46,6 +46,8 @@ class Control{
             return Call.call(instruction[1],ram);
         }else if(instruction[0]==='RET'){
             return Call.ret(ram);
+        }else if(instruction[0]==='LOOP'){
+            return Loop.loop(instruction[1],ram);
         }
     }
 }
