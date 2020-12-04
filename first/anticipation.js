@@ -218,6 +218,9 @@ class Anticipation{
             }
             if(str[i][0].charAt(str[i][0].length-1)===':'){
                 let label = str[i][0].replace(":","");
+                if(ram.getStart()===null){
+                    ram.setStart(label);
+                }
                 ram.setLabelVariable(label,ram.getRam_num());
                 let endStr = [];
                 for(let j=1;j<str[i].length;j++){

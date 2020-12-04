@@ -48,6 +48,8 @@ class Control{
             return Call.ret(ram);
         }else if(instruction[0]==='LOOP'){
             return Loop.loop(instruction[1],ram);
+        }else if(instruction[0]==='INC'){
+            return Inc.inc(instruction[1],ram);
         }
     }
 }

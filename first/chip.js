@@ -56,23 +56,23 @@ class Chip{
     getFlagByName(name){
         let flags = Anticipation.fullZero(SysConvert.to_binary(this.register.get('FLAGS')),15);
         if(name === 'CF'){
-            return flags[15];
+            return flags.charAt(15);
         }else if(name === 'PF'){
-            return flags[13];
+            return flags.charAt(13);
         }else if(name === 'AF'){
-            return flags[11];
+            return flags.charAt(11);
         }else if(name === 'ZF'){
-            return flags[9];
+            return flags.charAt(9);
         }else if(name === 'SF'){
-            return flags[8];
+            return flags.charAt(8);
         }else if(name === 'TF'){
-            return flags[7];
+            return flags.charAt(7);
         }else if(name === 'IF'){
-            return flags[6];
+            return flags.charAt(6);
         }else if(name === 'DF'){
-            return flags[5];
+            return flags.charAt(5);
         }else if(name === 'OF'){
-            return flags[4];
+            return flags.charAt(4);
         }else
             return -1;
     }
@@ -80,32 +80,32 @@ class Chip{
     setFlagByName(name,data){
         let flags = Anticipation.fullZero(SysConvert.to_binary(this.register.get('FLAGS')),15);
         if(name === 'CF'){
-            flags[15] = data;
+            flags = flags.slice(0,14)+data;
         }
         if(name === 'PF'){
-            flags[13] = data;
+            flags = flags.slice(0,13) + data + flags.slice(14,flags.length);
         }
         if(name === 'AF'){
-            flags[11] = data;
+            flags = flags.slice(0,11) + data + flags.slice(12,flags.length);
         }
         if(name === 'ZF'){
-            flags[9] = data;
+            flags = flags.slice(0,9) + data + flags.slice(10,flags.length);
         }
         if(name === 'SF'){
-            flags[8] = data;
+            flags = flags.slice(0,8) + data + flags.slice(9,flags.length);
         }
         if(name === 'TF'){
-            flags[7] = data;
+            flags = flags.slice(0,7) + data + flags.slice(8,flags.length);
         }
         if(name === 'IF'){
-            flags[6] = data;
+            flags = flags.slice(0,6) + data + flags.slice(7,flags.length);
         }
         if(name === 'DF'){
-            flags[5] = data;
+            flags = flags.slice(0,5) + data + flags.slice(6,flags.length);
         }
         if(name === 'OF'){
-            flags[4] = data;
+            flags = flags.slice(0,4) + data + flags.slice(5,flags.length);
         }
-        this.setRegister('FLAGS',flags);
+        this.setRegister('FLAGS',Anticipation.fullZero(SysConvert.to_hexadecimal(flags+'B')+'H',4));
     }
 }

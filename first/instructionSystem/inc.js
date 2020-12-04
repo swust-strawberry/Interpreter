@@ -1,54 +1,59 @@
 class Inc {
     static inc(operand,ram){
-        if(operand.indexOf('[')){
+        if(operand.indexOf('[')!==-1){
             address = Addressing_mode.to_addressing(operand);
-            let data = SysConvert.to_decimal(ram.getRamByAddress(address));
-            data++;
-            if(SysConvert.to_hexadecimal(data).length>2){
-                ram.setFlagByName('')
-            }
-            ram.setRam(address,SysConvert.to_hexadecimal(data)+'H');
+            let data1 = SysConvert.to_decimal(ram.getRamByAddress(address));
+            let data2 = data1+1;
+            ram.chip.setFlagByName('AF',Flags.judgeAf(data1,data2));
+            ram.chip.setFlagByName('ZF',Flags.judgeZf(data2));
+            ram.chip.setFlagByName('SF',Flags.judgeSf(data2));
+            ram.chip.setFlagByName('OF',Flags.judgeOf(data1,data2));
+            ram.chip.setFlagByName('PF',Flags.judgePf(data2));
+            ram.chip.setFlagByName('DF',Flags.judgeDf());
+            ram.chip.setFlagByName('IF',Flags.judgeIf());
+            ram.chip.setFlagByName('TF',Flags.judgeTf());
+            ram.setRam(address,SysConvert.to_hexadecimal(data2)+'H');
+        }else if(ram.getDbVariable(operand)){
+            address = ram.getDbVariable(operand);
+            let data1 = SysConvert.to_decimal(ram.getRamByAddress(address));
+            let data2 = data1+1;
+            ram.chip.setFlagByName('AF',Flags.judgeAf(data1,data2));
+            ram.chip.setFlagByName('ZF',Flags.judgeZf(data2));
+            ram.chip.setFlagByName('SF',Flags.judgeSf(data2));
+            ram.chip.setFlagByName('OF',Flags.judgeOf(data1,data2));
+            ram.chip.setFlagByName('PF',Flags.judgePf(data2));
+            ram.chip.setFlagByName('DF',Flags.judgeDf());
+            ram.chip.setFlagByName('IF',Flags.judgeIf());
+            ram.chip.setFlagByName('TF',Flags.judgeTf());
+            ram.setRam(address,SysConvert.to_hexadecimal(data2)+'H')
+        }else if(ram.getDwVariable(operand)){
+            address = ram.getDwVariable(operand);
+            let data1 = SysConvert.to_decimal(ram.getRamByAddress(address+1).slice(0,2)+ram.getRamByAddress(address));
+            let data2 = data1+1;
+            ram.chip.setFlagByName('AF',Flags.judgeAf(data1,data2));
+            ram.chip.setFlagByName('ZF',Flags.judgeZf(data2));
+            ram.chip.setFlagByName('SF',Flags.judgeSf(data2));
+            ram.chip.setFlagByName('OF',Flags.judgeOf(data1,data2));
+            ram.chip.setFlagByName('PF',Flags.judgePf(data2));
+            ram.chip.setFlagByName('DF',Flags.judgeDf());
+            ram.chip.setFlagByName('IF',Flags.judgeIf());
+            ram.chip.setFlagByName('TF',Flags.judgeTf());
+            let data = Anticipation.fullZero(SysConvert.to_hexadecimal(data2),3);
+            ram.setRam(address,data.slice(data.length-2,data.length)+'H');
+            ram.setRam(address+1,data.slice(data.length-4,data.length-2)+'H');
+        }else if(ram.chip.getRegisterByName(operand)){
+            let data1 = SysConvert.to_decimal(ram.chip.getRegisterByName(operand));
+            let data2 = data1+1;
+            ram.chip.setFlagByName('AF',Flags.judgeAf(data1,data2));
+            ram.chip.setFlagByName('ZF',Flags.judgeZf(data2));
+            ram.chip.setFlagByName('SF',Flags.judgeSf(data2));
+            ram.chip.setFlagByName('OF',Flags.judgeOf(data1,data2));
+            ram.chip.setFlagByName('PF',Flags.judgePf(data2));
+            ram.chip.setFlagByName('DF',Flags.judgeDf());
+            ram.chip.setFlagByName('IF',Flags.judgeIf());
+            ram.chip.setFlagByName('TF',Flags.judgeTf());
+            ram.chip.setRegister(operand,Anticipation.fullZero(SysConvert.to_hexadecimal(data2)+'H',4));
         }
-    }
-    static judgeCf(data1,data2){   //参数必须为十进制的数，data1是原数，data2是运算结果数
-        if(data2<0){
-            return '1';
-        }else{
-            if(SysConvert.to_binary(data1).length<SysConvert.to_binary(data2).length){
-                return '1';
-            }else{
-                return '0';
-            }
-        }
-    }
-    static judgeAf(data1,data2){
-        data1 = SysConvert.to_binary(data1);
-        data2 = SysConvert.to_binary(data2);
-        if(data1[11] === data2[11]){         //第四位相同，则表示没有进位或者借位
-            return '1';
-        }else{
-            return '0';
-        }
-    }
-    static judgeZf(data1,data2){
-
-    }
-    static judgeSf(data1,data2){
-
-    }
-    static judgeOf(data1,data2){
-
-    }
-    static judgePf(data1,data2){
-
-    }
-    static judgeDf(data1,data2){
-
-    }
-    static judgeIf(data1,data2){
-
-    }
-    static judgeTf(data1,data2){
-
+        return ram;
     }
 }
