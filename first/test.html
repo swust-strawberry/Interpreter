@@ -12,13 +12,15 @@
 <script type="text/javascript" src="/Interpreter/first/instructionSystem/xor.js"></script>
 <script type="text/javascript" src="/Interpreter/first/instructionSystem/call.js"></script>
 <script type="text/javascript" src="/Interpreter/first/instructionSystem/inc.js"></script>
-<script type="text/javascript" src="/Interpreter/first/flags.js"></script>
+<script type="text/javascript" src="/Interpreter/first/instructionSystem/loop.js"></script>
+
+<script type="text/javascript" src="flags.js"></script>
 <script type="text/javascript" src="control.js"></script>
 <script type="text/javascript" src="addressing_mode.js"></script>
 <script type="text/javascript" src="ram.js"></script>
 <script>
     let ram = new Ram();
-    let str = ["DATA  SEGMENT","STR1  DB  12","SG1 DW 1234H","STR2  DB  ?","STR3 DB 6 DUP(16)","DATA  ENDS","STACK SEGMENT","DB 5 DUP(16)","STACK ENDS","CODE  SEGMENT","ASSUME    CS:CODE,DS:DATA,SS:STACK","MAIN:   MOV   CX ,0005H;1234","MOV BX  ,2381H;  123 ","INC CX","S:LOOP S","CALL DELAY2","MOV CX,0010H ;","DELAY2 PROC NEAR","XOR BX,BX","RET ;返回","DELAY2 ENDP","CODE  ENDS","   END MAIN; 12345  "];
+    let str = ["DATA  SEGMENT","STR1  DB  12","SG1 DW 1234H","STR2  DB  ?","STR3 DB 6 DUP(16)","DATA  ENDS","STACK SEGMENT","DB 5 DUP(16)","STACK ENDS","CODE  SEGMENT","ASSUME    CS:CODE,DS:DATA,SS:STACK","MAIN:   MOV   CX ,0005H;1234","MOV BX  ,2381H;  123 ","INC CX","S:LOOP S","CALL DELAY2","MOV CX,0010H ;","DELAY2 PROC NEAR","XOR BX,BX","RET ;返回","DELAY2 ENDP","CODE  ENDS","   END ; 12345  "];
     ram = Anticipation.anticipation(str,ram);
     ram = Control.initRegister(ram);
     let address;
@@ -31,13 +33,11 @@
     }
     let instruction = ram.getRamByAddress(address);
     ram = Control.analysisInstruction(instruction,ram);
-    let n = 0;
-    while(n<6){
-        instruction = Control.getInstruction(ram);
-        console.log(instruction);
-        ram = Control.analysisInstruction(instruction,ram);
-        n++;
-    }
+    instruction = Control.getInstruction(ram);
+    ram = Control.analysisInstruction(instruction,ram);
+    instruction = Control.getInstruction(ram);
+    ram = Control.analysisInstruction(instruction,ram);
+
     console.log(ram);
 </script>
 </body>

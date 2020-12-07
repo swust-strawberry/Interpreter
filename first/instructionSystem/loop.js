@@ -8,7 +8,7 @@ class Loop{
             let currentAddress = currentCs * 16 + currentIp;
             let flagAddress = ram.getLabelVariable(label);
             let offset = flagAddress - currentAddress;
-            flagIp = currentIp + offset;
+            let flagIp = currentIp + offset;
             ram.chip.setRegister('IP',flagIp);
         }
         ram.chip.setRegister('CX',cx);

@@ -24,7 +24,7 @@ class Control{
     static getInstruction(ram){
         let seg_address = ram.chip.getRegisterByName('CS');
         let offset_address = ram.chip.getRegisterByName('IP');
-        address = SysConvert.to_decimal(seg_address)*16 + SysConvert.to_decimal(offset_address);
+        let address = SysConvert.to_decimal(seg_address)*16 + SysConvert.to_decimal(offset_address);
         return ram.getRamByAddress(address);
     }
 
@@ -40,15 +40,15 @@ class Control{
         ram = this.upgradeIP(instruction,ram);
         if(instruction[0]==='MOV'){
             return Mov.mov(instruction[1],instruction[2],ram);
-        }else if(instruction[0]==='XOR'){
+        }if(instruction[0]==='XOR'){
             return Xor.xor(instruction[1],instruction[2],ram);
-        }else if(instruction[0]==='CALL'){
+        }if(instruction[0]==='CALL'){
             return Call.call(instruction[1],ram);
-        }else if(instruction[0]==='RET'){
+        }if(instruction[0]==='RET'){
             return Call.ret(ram);
-        }else if(instruction[0]==='LOOP'){
+        }if(instruction[0]==='LOOP'){
             return Loop.loop(instruction[1],ram);
-        }else if(instruction[0]==='INC'){
+        }if(instruction[0]==='INC'){
             return Inc.inc(instruction[1],ram);
         }
     }

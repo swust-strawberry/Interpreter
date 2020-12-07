@@ -35,6 +35,11 @@ class Anticipation{
         for(let i=0;i<str.length;i++){
             if(str[i][0]==='ORG'){
                 ram.setRam_num(SysConvert.to_decimal(str[i][1])*16);
+                continue;
+            }
+            if(str[i][1] === 'EQU'){
+                ram.chip.io.set(str[i][0],str[i][2]);
+                continue;
             }
             if(str[i][1]==='DB'){
                 ram.setDbVariable(str[i][0],ram.getRam_num());
@@ -63,7 +68,7 @@ class Anticipation{
                     }
                 }
             }
-            else if(str[i][1]==='DW'){
+            if(str[i][1]==='DW'){
                 ram.setDwVariable(str[i][0],ram.getRam_num());
                 if(str[i][3]){
                     if(str[i][3].slice(0,3)==='DUP'){

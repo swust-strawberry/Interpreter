@@ -59,7 +59,7 @@ class Flags {//参数必须为十六进制的字符串，data1是原数，data2�
     static judgePf(data2){   //奇偶标志。奇数个1，PF为0；偶数个1，PF为1
         let number = Anticipation.fullZero(SysConvert.to_binary(data2),7);
         let n = 0;
-        for(let i=number.length-1;i>0;i++){
+        for(let i=number.length-1;i>0;i--){
             if(number[i] === '1'){
                 n++;
             }
